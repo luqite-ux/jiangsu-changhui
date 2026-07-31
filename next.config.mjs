@@ -18,6 +18,16 @@ const nextConfig = {
       },
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.changhuielectrical.com' }],
+        destination: 'https://changhuielectrical.com/:path*',
+        permanent: true,
+      },
+    ]
+  },
   async rewrites() {
     if (!adminUrl) return []
 

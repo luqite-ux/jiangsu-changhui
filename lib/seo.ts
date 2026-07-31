@@ -1,6 +1,6 @@
 import type { Metadata, MetadataRoute } from 'next'
 
-export const SITE_URL = 'https://jiangsu-changhui.vercel.app'
+export const SITE_URL = 'https://changhuielectrical.com'
 export const SITE_NAME = 'CHANG HUI ELECTRIC'
 export const LEGAL_NAME = 'Jiangsu Changhui Electric Co., Ltd.'
 export const DEFAULT_OG_IMAGE = '/logo.png'

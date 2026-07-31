@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import test from 'node:test'
 import ts from 'typescript'
 
@@ -28,13 +28,28 @@ test('page metadata resolves canonical, Open Graph and Twitter URLs against the 
     type: 'website',
   })
 
-  assert.equal(SITE_URL, 'https://jiangsu-changhui.vercel.app')
+  assert.equal(SITE_URL, 'https://changhuielectrical.com')
   assert.equal(metadata.metadataBase.href, `${SITE_URL}/`)
   assert.equal(metadata.alternates.canonical, `${SITE_URL}/products/hv-switchgear/kyn28-12`)
   assert.equal(metadata.openGraph.url, `${SITE_URL}/products/hv-switchgear/kyn28-12`)
   assert.equal(metadata.openGraph.images[0].url, `${SITE_URL}/products/hv-switchgear.png`)
   assert.equal(metadata.twitter.card, 'summary_large_image')
   assert.equal(metadata.twitter.images[0], `${SITE_URL}/products/hv-switchgear.png`)
+})
+
+test('www host permanently redirects every path to the canonical apex host', async () => {
+  const configUrl = pathToFileURL(resolve(repositoryRoot, 'next.config.mjs')).href
+  const { default: nextConfig } = await import(`${configUrl}?domain-redirect-contract`)
+
+  assert.equal(typeof nextConfig.redirects, 'function')
+  assert.deepEqual(await nextConfig.redirects(), [
+    {
+      source: '/:path*',
+      has: [{ type: 'host', value: 'www.changhuielectrical.com' }],
+      destination: 'https://changhuielectrical.com/:path*',
+      permanent: true,
+    },
+  ])
 })
 
 test('non-indexable metadata removes inherited discovery and social URLs', async () => {
