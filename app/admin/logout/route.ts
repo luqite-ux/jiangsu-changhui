@@ -6,9 +6,15 @@ async function logout(request: NextRequest) {
   const token = request.cookies.get(SESSION_COOKIE)?.value
   if (token) {
     try {
-      await createAdminClient().from('admin_user_sessions').delete().eq('token', token)
+      const { error } = await createAdminClient()
+        .from('admin_user_sessions')
+        .delete()
+        .eq('token', token)
+      if (error) {
+        console.error('[admin logout] failed to revoke database session')
+      }
     } catch {
-      // Cookie revocation must still complete if the session row is already gone.
+      console.error('[admin logout] database session revocation threw')
     }
   }
 

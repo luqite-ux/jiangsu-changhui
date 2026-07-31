@@ -51,7 +51,7 @@ test('middleware delegates public-path matching to the segment-safe policy', asy
 
 test('logout revokes the current database session before clearing both cookies', async () => {
   const source = await readProjectFile('app/admin/logout/route.ts')
-  const deleteIndex = source.search(/from\(['"]admin_user_sessions['"]\)\.delete\(\)\.eq\(['"]token['"],\s*token\)/)
+  const deleteIndex = source.search(/from\(['"]admin_user_sessions['"]\)[\s\S]*?\.delete\(\)[\s\S]*?\.eq\(['"]token['"],\s*token\)/)
   const clearSessionIndex = source.search(/cookies\.set\(SESSION_COOKIE,\s*['"]/)
   const clearTenantIndex = source.search(/cookies\.set\(TENANT_COOKIE,\s*['"]/)
 
@@ -61,4 +61,14 @@ test('logout revokes the current database session before clearing both cookies',
   assert.notEqual(clearTenantIndex, -1)
   assert.ok(deleteIndex < clearSessionIndex)
   assert.ok(deleteIndex < clearTenantIndex)
+})
+
+test('logout inspects database revocation errors without logging the session token', async () => {
+  const source = await readProjectFile('app/admin/logout/route.ts')
+
+  assert.match(source, /const\s*\{\s*error\s*\}\s*=\s*await\s+createAdminClient\(\)/)
+  assert.match(source, /if\s*\(error\)\s*\{[\s\S]*?console\.error\(/)
+  assert.doesNotMatch(source, /console\.error\([^\n]*token/)
+  assert.match(source, /catch\s*\{[\s\S]*?console\.error\(/)
+  assert.match(source, /cookies\.set\(SESSION_COOKIE,[\s\S]*?cookies\.set\(TENANT_COOKIE,/)
 })
