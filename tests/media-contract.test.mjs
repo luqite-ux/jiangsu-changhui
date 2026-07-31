@@ -7,6 +7,7 @@ import ts from 'typescript'
 
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const r2Base = 'https://pub-c7a22068052144a5805830c30d280128.r2.dev/v0-design-assets/jiangsu-changhui/'
+const brandFreeBase = `${r2Base}brand-free/`
 const imageFiles = [
   'LOGO.png',
   '02f2c9b85494be5f6063823e28e5665f.jpg',
@@ -72,7 +73,7 @@ async function loadSiteData() {
 
 test('all 24 confirmed image assets are present once in the customer media collection', async () => {
   const { customerImageAssets, photos } = await loadSiteData()
-  const expected = imageFiles.map((file) => `${r2Base}${file}`)
+  const expected = [`${r2Base}${imageFiles[0]}`, ...imageFiles.slice(1).map((file) => `${brandFreeBase}${file}`)]
 
   assert.equal(photos.logo, expected[0])
   assert.deepEqual(customerImageAssets.map(({ src }) => src), expected.slice(1))

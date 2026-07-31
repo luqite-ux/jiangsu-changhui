@@ -37,7 +37,7 @@ export const nav = [
 
 const r2AssetBase = 'https://pub-c7a22068052144a5805830c30d280128.r2.dev/v0-design-assets/jiangsu-changhui/'
 
-const r2Asset = (fileName: string) => `${r2AssetBase}${fileName}`
+const r2Asset = (fileName: string) => `${r2AssetBase}${fileName.endsWith('.jpg') ? 'brand-free/' : ''}${fileName}`
 
 export const photos = {
   logo: r2Asset('LOGO.png'),
