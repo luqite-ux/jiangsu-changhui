@@ -5,6 +5,7 @@ import { getArticleBySlug, getPublishedArticles } from '@/lib/articles-db'
 import {
   buildBreadcrumbJsonLd,
   buildNewsArticleJsonLd,
+  buildNoIndexMetadata,
   buildPageMetadata,
   serializeJsonLd,
 } from '@/lib/seo'
@@ -17,7 +18,7 @@ type Props = { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const article = await getArticleBySlug(slug)
-  if (!article) return { robots: { index: false, follow: false } }
+  if (!article) return buildNoIndexMetadata('Article Not Found')
   return buildPageMetadata({
     title: article.title,
     description: article.excerpt,

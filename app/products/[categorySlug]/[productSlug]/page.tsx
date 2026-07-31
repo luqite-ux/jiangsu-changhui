@@ -4,7 +4,8 @@ import { ProductDetailClient } from '@/app/products/[categorySlug]/[productSlug]
 import { fetchProductsData, getProductBySlug } from '@/lib/products-db'
 import {
   buildBreadcrumbJsonLd,
-  buildPageMetadata,
+  buildNoIndexMetadata,
+  buildProductPageMetadata,
   buildProductJsonLd,
   serializeJsonLd,
 } from '@/lib/seo'
@@ -17,13 +18,8 @@ type Props = { params: Promise<{ categorySlug: string; productSlug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { productSlug } = await params
   const product = await getProductBySlug(productSlug)
-  if (!product) return { robots: { index: false, follow: false } }
-  return buildPageMetadata({
-    title: product.name,
-    description: `${product.name} — manufactured by Jiangsu Changhui Electric. ${product.description.slice(0, 140)}`,
-    path: `/products/${product.category}/${product.slug}`,
-    image: product.image,
-  })
+  if (!product) return buildNoIndexMetadata('Product Not Found')
+  return buildProductPageMetadata(product)
 }
 
 export default async function ProductDetailPage({ params }: Props) {

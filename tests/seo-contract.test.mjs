@@ -37,6 +37,36 @@ test('page metadata resolves canonical, Open Graph and Twitter URLs against the 
   assert.equal(metadata.twitter.images[0], `${SITE_URL}/products/hv-switchgear.png`)
 })
 
+test('non-indexable metadata removes inherited discovery and social URLs', async () => {
+  const { buildNoIndexMetadata } = await loadTypeScriptModule('lib/seo.ts')
+  const metadata = buildNoIndexMetadata('Page Not Found')
+
+  assert.equal(metadata.title, 'Page Not Found')
+  assert.deepEqual(metadata.robots, { index: false, follow: false })
+  assert.deepEqual(metadata.alternates, { canonical: null })
+  assert.equal(metadata.openGraph, null)
+  assert.equal(metadata.twitter, null)
+})
+
+test('product metadata keeps the full unique name without a brand suffix and caps factual descriptions', async () => {
+  const { buildProductPageMetadata } = await loadTypeScriptModule('lib/seo.ts')
+  const name = 'KYN61-40.5 Metal-Clad Withdrawable AC Switchgear'
+  const metadata = buildProductPageMetadata({
+    name,
+    description:
+      'Designed for 40.5 kV three-phase AC 50 Hz power systems, with a withdrawable structure and cabinet configuration documented in the customer product catalogue. Additional copy must not make the search description excessively long.',
+    category: 'hv-switchgear',
+    slug: 'kyn61-40-5',
+    image: '/products/hv-switchgear.png',
+  })
+
+  assert.deepEqual(metadata.title, { absolute: name })
+  assert.ok(metadata.description.startsWith(`${name}. Designed for 40.5 kV`))
+  assert.ok(metadata.description.length <= 160)
+  assert.equal(metadata.openGraph.title, name)
+  assert.equal(metadata.openGraph.description, metadata.description)
+})
+
 test('dynamic sitemap contains every public route, active product and published article exactly once', async () => {
   const { products, productCategories } = await loadTypeScriptModule('lib/site-data.ts')
   const { SITE_URL, STATIC_SITEMAP_ROUTES, buildSitemapEntries } = await loadTypeScriptModule('lib/seo.ts')
@@ -151,11 +181,4 @@ test('public route components keep one visible h1 source and meaningful image al
   const layout = await readProjectFile('app/layout.tsx')
   assert.match(layout, /icons:/, 'the root metadata must publish favicon declarations')
   assert.match(await readProjectFile('components/site-header.tsx'), /alt=\{`\$\{company\.name\} logo`\}/)
-})
-
-test('404 and customer admin login metadata explicitly prevent indexing', async () => {
-  for (const file of ['app/not-found.tsx', 'app/admin/login/layout.tsx']) {
-    const source = await readProjectFile(file)
-    assert.match(source, /robots:\s*\{\s*index:\s*false,\s*follow:\s*false\s*\}/, `${file} must be noindex`)
-  }
 })

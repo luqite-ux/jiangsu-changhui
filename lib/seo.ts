@@ -41,6 +41,11 @@ type ProductSeoRecord = {
   isActive?: boolean
 }
 
+type ProductMetadataRecord = Pick<
+  ProductSeoRecord,
+  'name' | 'description' | 'category' | 'slug' | 'image'
+>
+
 type CategorySeoRecord = {
   slug: string
   updatedAt?: string | null
@@ -103,6 +108,41 @@ export function buildPageMetadata({
       description,
       images: [imageUrl],
     },
+  }
+}
+
+export function buildNoIndexMetadata(title: string): Metadata {
+  return {
+    title,
+    robots: { index: false, follow: false },
+    alternates: { canonical: null },
+    openGraph: null,
+    twitter: null,
+  }
+}
+
+function compactMetadataDescription(value: string, maxLength = 160): string {
+  const normalized = value.replace(/\s+/g, ' ').trim()
+  if (normalized.length <= maxLength) return normalized
+
+  const clipped = normalized.slice(0, maxLength - 1)
+  const wordBoundary = clipped.lastIndexOf(' ')
+  const safeBoundary = wordBoundary >= Math.floor(maxLength * 0.75) ? wordBoundary : clipped.length
+  return `${clipped.slice(0, safeBoundary).replace(/[\s,;:.!?-]+$/g, '')}…`
+}
+
+export function buildProductPageMetadata(product: ProductMetadataRecord): Metadata {
+  const description = compactMetadataDescription(`${product.name}. ${product.description}`)
+  const metadata = buildPageMetadata({
+    title: product.name,
+    description,
+    path: `/products/${product.category}/${product.slug}`,
+    image: product.image,
+  })
+
+  return {
+    ...metadata,
+    title: { absolute: product.name },
   }
 }
 

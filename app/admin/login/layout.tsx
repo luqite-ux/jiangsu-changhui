@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
+import { buildNoIndexMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: '网站管理后台登录',
-  robots: { index: false, follow: false },
-}
+export const metadata: Metadata = buildNoIndexMetadata('网站管理后台登录')
 
 export default function AdminLoginLayout({ children }: { children: React.ReactNode }) {
   return (

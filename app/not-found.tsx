@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Zap } from 'lucide-react'
+import { buildNoIndexMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Page Not Found',
-  robots: { index: false, follow: false },
-}
+export const metadata: Metadata = buildNoIndexMetadata('Page Not Found')
 
 export default function NotFound() {
   return (
