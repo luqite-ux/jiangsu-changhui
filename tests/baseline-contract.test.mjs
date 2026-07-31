@@ -10,12 +10,17 @@ const readProjectFile = (relativePath) =>
 
 const requiredRoutes = [
   'app/page.tsx',
+  'app/about/page.tsx',
+  'app/capabilities/page.tsx',
   'app/products/page.tsx',
   'app/products/[categorySlug]/page.tsx',
   'app/products/[categorySlug]/[productSlug]/page.tsx',
   'app/news/page.tsx',
   'app/news/[slug]/page.tsx',
   'app/contact/page.tsx',
+  'app/quality/page.tsx',
+  'app/faq/page.tsx',
+  'app/not-found.tsx',
 ]
 
 const workspace = await readProjectFile('pnpm-workspace.yaml')
