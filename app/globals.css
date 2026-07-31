@@ -19,6 +19,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-on-dark: var(--accent-on-dark);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
@@ -55,15 +56,16 @@
   --secondary-foreground: oklch(0.3 0.05 258);
 
   --muted: oklch(0.955 0.008 247);
-  --muted-foreground: oklch(0.52 0.02 258);
+  --muted-foreground: oklch(0.44 0.025 258);
 
   /* Red accent (from logo) */
-  --accent: oklch(0.56 0.21 27);
+  --accent: oklch(0.46 0.18 27);
   --accent-foreground: oklch(0.99 0.005 247);
+  --accent-on-dark: oklch(0.82 0.11 35);
 
-  --destructive: oklch(0.56 0.21 27);
-  --border: oklch(0.9 0.01 247);
-  --input: oklch(0.9 0.01 247);
+  --destructive: oklch(0.46 0.18 27);
+  --border: oklch(0.7 0.018 247);
+  --input: oklch(0.62 0.025 247);
   --ring: oklch(0.37 0.11 256);
 }
 
@@ -153,7 +155,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, .reveal { animation: none !important; }
+  *, *::before, *::after, .reveal {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
   .reveal { opacity: 1 !important; }
   html { scroll-behavior: auto; }
 }

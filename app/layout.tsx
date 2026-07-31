@@ -18,14 +18,16 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
+const productionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://changhui-electric.com'),
+  metadataBase: productionHost ? new URL(`https://${productionHost}`) : undefined,
   title: {
     default: 'CHANG HUI ELECTRIC | HV & LV Switchgear, Busway & Cable Tray Manufacturer',
     template: '%s | CHANG HUI ELECTRIC',
   },
   description:
-    'Jiangsu Changhui Electric Co., Ltd. is a professional manufacturer of high & low voltage switchgear, distribution boxes, busway systems, cable trays and transformers. ISO 9001 certified, exporting worldwide.',
+    'Jiangsu Changhui Electric Co., Ltd. lists high and low voltage switchgear, distribution boxes, busway systems, cable trays and related made-to-order electrical equipment.',
   keywords: [
     'switchgear manufacturer',
     'busway system',
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'CHANG HUI ELECTRIC',
     description:
-      'Professional manufacturer of HV/LV switchgear, busway, cable tray and transformers. ISO 9001 certified, exporting worldwide.',
+      'Made-to-order electrical distribution equipment based on customer drawings and project requirements.',
     type: 'website',
     locale: 'en_US',
   },
@@ -68,7 +70,7 @@ export default function RootLayout({
         <main className="min-h-screen">{children}</main>
         <SiteFooter />
         <FloatingContact />
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NODE_ENV === 'production' && process.env.VERCEL && <Analytics />}
       </body>
     </html>
   )

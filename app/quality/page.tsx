@@ -10,7 +10,7 @@ import { photos } from '@/lib/site-data'
 export const metadata: Metadata = {
   title: 'Quality Assurance',
   description:
-    'Chang Hui Electric ISO 9001 quality management — three-tier quality control covering incoming materials, in-process inspection, factory acceptance testing and full traceability.',
+    'Quality management and inspection information stated in Chang Hui Electric’s supplied company materials.',
 }
 
 const tiers = [
@@ -40,11 +40,11 @@ const tiers = [
   },
 ]
 
-const certifications = [
-  { label: 'Quality System', value: 'ISO 9001 Quality Management System' },
+const qualityStatements = [
+  { label: 'Quality System', value: 'Company materials state that an ISO 9001 quality management system is in place' },
   { label: 'Warranty', value: '2-year free warranty from delivery' },
   { label: 'After-sales Response', value: 'Within 1 hour for technical support requests' },
-  { label: 'Type Tests', value: '7 type-test reports covering temperature rise, dielectric, short-circuit withstand and protection ratings' },
+  { label: 'Type Testing', value: 'Company materials state that type testing has been completed; report files were not supplied for publication' },
 ]
 
 const testCapabilities = [
@@ -64,8 +64,8 @@ export default function QualityPage() {
       <PageHero
         breadcrumb="Quality"
         eyebrow="Quality Assurance"
-        title="ISO 9001 Quality Throughout Every Stage"
-        description="Our three-tier quality control system covers incoming materials, in-process inspection and factory acceptance testing — with full serial-number traceability on every unit."
+        title="Quality Management Information"
+        description="The supplied company materials describe controls for incoming materials, manufacturing and factory inspection."
       />
 
       {/* Three-tier overview */}
@@ -73,7 +73,7 @@ export default function QualityPage() {
         <SectionHeading
           eyebrow="Quality Control"
           title="A Three-Tier Quality System"
-          description="Under ISO 9001, quality is controlled across the full production lifecycle — from raw materials through to on-site commissioning support."
+          description="This summary reflects the quality-control approach described in the supplied company materials."
         />
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -102,7 +102,7 @@ export default function QualityPage() {
             <Reveal className="relative overflow-hidden rounded-2xl border border-white/10 shadow-xl">
               <Image
                 src={photos.hvXgnOpenDoor}
-                alt="Factory acceptance inspection — XGN-40.5G switchgear with door open showing internal wiring and relay compartment"
+                alt="Customer-supplied company photograph from Jiangsu Changhui Electric"
                 width={720}
                 height={540}
                 className="h-full w-full object-cover"
@@ -112,13 +112,13 @@ export default function QualityPage() {
               <SectionHeading
                 invert
                 align="left"
-                eyebrow="Certifications & Standards"
-                title="Built to Last, Documented to Prove It"
+                eyebrow="Supplied Quality Information"
+                title="Statements From Company Materials"
               />
               <dl className="mt-8 space-y-4">
-                {certifications.map((c) => (
+                {qualityStatements.map((c) => (
                   <div key={c.label} className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                    <dt className="text-xs font-semibold uppercase tracking-wider text-white/55">{c.label}</dt>
+                    <dt className="text-xs font-semibold uppercase tracking-wider text-white/75">{c.label}</dt>
                     <dd className="mt-1 text-sm font-medium text-white">{c.value}</dd>
                   </div>
                 ))}
@@ -150,7 +150,7 @@ export default function QualityPage() {
           <Reveal delay={100} className="relative overflow-hidden rounded-2xl border border-border shadow-xl shadow-primary/10">
             <Image
               src={photos.productionHallC}
-              alt="Chang Hui Electric production bay — LV cabinet assemblies and enclosures in production"
+              alt="Customer-supplied company photograph from Jiangsu Changhui Electric"
               width={720}
               height={620}
               className="h-full w-full object-cover"

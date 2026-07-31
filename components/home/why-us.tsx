@@ -8,12 +8,12 @@ const features = [
   {
     icon: Factory,
     title: 'In-House Manufacturing',
-    desc: '25,000 m² workshop with 32+ CNC punching, bending, laser cutting and busbar processing machines — full production control in one facility.',
+    desc: 'Customer materials state a 25,000 m² building area and list 32 production-equipment entries across multiple equipment types.',
   },
   {
     icon: ClipboardCheck,
-    title: 'ISO 9001 Quality System',
-    desc: 'Three-tier quality control process with 5 hold-point inspections and a full factory acceptance test on every unit before dispatch.',
+    title: 'Documented Quality Approach',
+    desc: 'The supplied company materials describe incoming, in-process and factory inspection activities.',
   },
   {
     icon: Layers,
@@ -23,7 +23,7 @@ const features = [
   {
     icon: Timer,
     title: 'Reliable Lead Times',
-    desc: 'Standard production lead time 15–45 days. Expedited production available for time-critical projects.',
+    desc: 'Typical production lead time is stated as 15–45 days and varies by product and quantity; a supplied example gives about 50 days for 100 units.',
   },
   {
     icon: Wrench,
@@ -63,12 +63,12 @@ export function WhyUs() {
           {features.map((f, i) => (
             <Reveal key={f.title} delay={(i % 3) * 100}>
               <div className="group h-full rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors hover:border-accent/40 hover:bg-white/10">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-accent/15 text-accent transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 text-accent-on-dark transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
                   <f.icon className="h-6 w-6" aria-hidden />
                 </span>
                 <h3 className="mt-5 font-display text-lg font-semibold text-white">{f.title}</h3>
                 {/* eslint-disable-next-line react/no-danger */}
-                <p className="mt-2 text-sm leading-relaxed text-white/70" dangerouslySetInnerHTML={{ __html: f.desc }} />
+                <p className="mt-2 text-sm leading-relaxed text-white/80" dangerouslySetInnerHTML={{ __html: f.desc }} />
               </div>
             </Reveal>
           ))}

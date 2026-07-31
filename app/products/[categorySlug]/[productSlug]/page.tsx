@@ -56,7 +56,7 @@ export default async function ProductDetailPage({ params }: Props) {
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-secondary shadow-xl shadow-primary/8">
                 <Image
                   src={images[0]}
-                  alt={prod.name}
+                  alt={`Neutral category illustration for ${prod.name}`}
                   fill
                   priority
                   className="object-cover object-top"
@@ -72,7 +72,7 @@ export default async function ProductDetailPage({ params }: Props) {
                     >
                       <Image
                         src={img}
-                        alt={`${prod.name} — view ${idx + 2}`}
+                        alt={`Neutral category illustration for ${prod.name}`}
                         fill
                         className="object-cover"
                         sizes="20vw"
@@ -182,7 +182,7 @@ export default async function ProductDetailPage({ params }: Props) {
                     <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-secondary">
                       <Image
                         src={rel.image}
-                        alt={rel.name}
+                        alt={`Neutral category illustration for ${rel.name}`}
                         fill
                         className="object-cover"
                         sizes="80px"

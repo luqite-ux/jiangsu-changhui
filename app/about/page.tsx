@@ -56,7 +56,7 @@ export default function AboutPage() {
           <Reveal className="relative overflow-hidden rounded-2xl border border-border shadow-xl shadow-primary/10">
             <Image
               src={photos.factoryRoadD}
-              alt="Jiangsu Changhui Electric — factory campus main road between production workshops in Yangzhong, Jiangsu"
+              alt="Customer-supplied company photograph from Jiangsu Changhui Electric"
               width={720}
               height={560}
               className="h-full w-full object-cover"
@@ -77,9 +77,8 @@ export default function AboutPage() {
                 hanger systems and related supporting products.
               </p>
               <p>
-                Located in the beautiful river city of Yangzhong — adjacent to the Yangtze River
-                port and the Shanghai–Nanjing expressway — our facility enjoys an exceptional
-                geographic location. We uphold the philosophy of{' '}
+                The registered office is in Yangzhong. The supplied company profile identifies the
+                manufacturing base at {company.factoryAddress}. We uphold the philosophy of{' '}
                 <span className="font-medium text-foreground">
                   &ldquo;focusing on customer needs, focusing on detail and quality.&rdquo;
                 </span>

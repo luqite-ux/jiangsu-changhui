@@ -6,7 +6,7 @@ import { ArrowRight, ShieldCheck, Package, Clock } from 'lucide-react'
 import { photos, productCategories } from '@/lib/site-data'
 
 const badges = [
-  { icon: ShieldCheck, label: 'ISO 9001 Quality System' },
+  { icon: ShieldCheck, label: 'Quality system stated in company materials' },
   { icon: Package, label: 'MOQ 1 Unit' },
   { icon: Clock, label: '2-Year Warranty' },
 ]
@@ -18,7 +18,7 @@ export function Hero() {
       <div className="absolute inset-0 -z-10">
         <Image
           src={photos.productionHallA}
-          alt="Chang Hui Electric factory workshop — rows of finished switchgear cabinets ready for delivery"
+          alt="Customer-supplied company photograph from Jiangsu Changhui Electric"
           fill
           priority
           className="object-cover object-center"
@@ -67,9 +67,9 @@ export function Hero() {
             style={{ animation: 'fade-up 0.7s ease both', animationDelay: '0.1s' }}
           >
             Custom Electrical{' '}
-            <span className="text-accent">Distribution</span>
+            <span className="text-accent-on-dark">Distribution</span>
             {' '}&amp;{' '}
-            <span className="text-accent">Switchgear</span>
+            <span className="text-accent-on-dark">Switchgear</span>
             {' '}Solutions
           </h1>
 
@@ -107,7 +107,7 @@ export function Hero() {
           >
             {badges.map((b) => (
               <div key={b.label} className="flex items-center gap-2 text-sm font-medium text-white/85">
-                <b.icon className="h-4 w-4 text-accent" aria-hidden />
+                <b.icon className="h-4 w-4 text-accent-on-dark" aria-hidden />
                 {b.label}
               </div>
             ))}

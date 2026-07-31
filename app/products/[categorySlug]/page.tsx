@@ -63,7 +63,7 @@ export default async function CategoryPage({ params }: Props) {
                 <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
                   <Image
                     src={prod.image}
-                    alt={prod.name}
+                    alt={`Neutral category illustration for ${prod.name}`}
                     fill
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -109,7 +109,7 @@ export default async function CategoryPage({ params }: Props) {
               Need a custom {cat.name} solution?
             </h2>
             <p className="mx-auto mt-2 max-w-lg text-white/75 text-pretty">
-              Share your single-line diagram or specification and we will quote within one business day.
+              Share your single-line diagram, quantity and project requirements for review and quotation.
             </p>
             <Link
               href="/contact"

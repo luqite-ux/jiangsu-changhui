@@ -18,7 +18,7 @@ import { photos } from '@/lib/site-data'
 export const metadata: Metadata = {
   title: 'Manufacturing & Quality Capabilities',
   description:
-    'Explore Chang Hui Electric’s manufacturing capabilities — CNC fabrication, busbar processing, surface treatment, assembly, testing and a three-tier ISO 9001 quality control system.',
+    'Explore the manufacturing processes and equipment described in Chang Hui Electric’s supplied company materials.',
 }
 
 const process = [
@@ -94,7 +94,7 @@ const qcTiers = [
   {
     icon: PackageCheck,
     title: 'Factory & Type Testing',
-    desc: 'Routine factory tests on every unit, plus 7 type-test reports covering temperature rise, dielectric, short-circuit withstand and protection ratings.',
+    desc: 'The supplied company materials describe routine factory testing and state that type testing has been completed; report documents were not supplied for publication.',
   },
 ]
 
@@ -105,7 +105,7 @@ export default function CapabilitiesPage() {
         breadcrumb="Capabilities"
         eyebrow="Manufacturing & Quality"
         title="Vertically Integrated From Raw Steel to Tested Cabinets"
-        description="Our 42,000 m² facility controls every production stage in-house — backed by 32+ machines and a comprehensive electrical test laboratory under an ISO 9001 quality system."
+        description="The supplied company materials state a 42,000 m² site area and list 32 production-equipment entries across fabrication, handling and support equipment."
       />
 
       {/* Process */}
@@ -143,7 +143,7 @@ export default function CapabilitiesPage() {
             <Reveal className="relative overflow-hidden rounded-2xl border border-white/10 shadow-xl">
               <Image
                 src={photos.productionHallC}
-                alt="Chang Hui Electric production hall — LV cabinet assemblies and box-substation enclosures"
+                alt="Customer-supplied company photograph from Jiangsu Changhui Electric"
                 width={720}
                 height={540}
                 className="h-full w-full object-cover"
@@ -154,7 +154,7 @@ export default function CapabilitiesPage() {
                 invert
                 align="left"
                 eyebrow="Core Equipment"
-                title="32+ Advanced Manufacturing Machines"
+                title="32 Listed Production-Equipment Entries"
               />
               <div className="mt-8 divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
                 {equipment.map((e) => (
@@ -163,7 +163,7 @@ export default function CapabilitiesPage() {
                       <p className="font-medium text-white">{e.name}</p>
                       <p className="text-sm text-white/60">{e.use}</p>
                     </div>
-                    <span className="mt-1 inline-flex w-fit rounded-full bg-accent/20 px-3 py-1 text-xs font-medium text-accent sm:mt-0">
+                    <span className="mt-1 inline-flex w-fit rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-accent-on-dark sm:mt-0">
                       {e.spec}
                     </span>
                   </div>
@@ -196,7 +196,7 @@ export default function CapabilitiesPage() {
           <Reveal delay={100} className="relative overflow-hidden rounded-2xl border border-border shadow-xl shadow-primary/10">
             <Image
               src={photos.hvXgnOpenDoor}
-              alt="Chang Hui Electric quality control — XGN-40.5G switchgear unit open for factory acceptance inspection"
+              alt="Customer-supplied company photograph from Jiangsu Changhui Electric"
               width={720}
               height={620}
               className="h-full w-full object-cover"
@@ -211,7 +211,7 @@ export default function CapabilitiesPage() {
           <SectionHeading
             eyebrow="Quality Assurance"
             title="A Three-Tier Quality Control System"
-            description="Under ISO 9001, quality is controlled across the full lifecycle — from raw materials to on-site commissioning."
+            description="The supplied company materials describe quality checks from incoming materials through manufacturing and factory inspection."
           />
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {qcTiers.map((q, i) => (

@@ -9,7 +9,7 @@ const points = [
   'High-purity electrolytic copper busbar processing (≥98% IACS)',
   'Epoxy powder electrostatic coating with ≥60 μm film thickness',
   'In-house electrical test lab: dielectric, insulation resistance, DC resistance & AC withstand',
-  '32+ CNC processing machines and 3 overhead bridge cranes',
+  'The supplied production-equipment list contains 32 entries across fabrication, handling and support equipment',
 ]
 
 export function CapabilitiesPreview() {
@@ -20,7 +20,7 @@ export function CapabilitiesPreview() {
           <div className="relative overflow-hidden rounded-2xl border border-border shadow-xl shadow-primary/10">
             <Image
               src={photos.productionHallC}
-              alt="Chang Hui Electric production floor — LV cabinet assemblies and box-substation enclosures being prepared"
+              alt="Customer-supplied photograph from Jiangsu Changhui Electric"
               width={720}
               height={540}
               className="h-full w-full object-cover"
@@ -28,11 +28,11 @@ export function CapabilitiesPreview() {
           </div>
           {/* Floating stat card */}
           <div className="absolute -bottom-6 -right-4 hidden rounded-xl border border-border bg-card p-5 shadow-lg sm:block">
-            <p className="font-display text-3xl font-bold text-primary">32+</p>
-            <p className="text-sm text-muted-foreground">CNC &amp; processing machines</p>
+            <p className="font-display text-3xl font-bold text-primary">32</p>
+            <p className="text-sm text-muted-foreground">listed equipment entries</p>
           </div>
           <div className="animate-float-slow absolute -left-4 -top-4 hidden rounded-xl bg-accent p-4 text-accent-foreground shadow-lg md:block">
-            <p className="font-display text-2xl font-bold">ISO 9001</p>
+            <p className="font-display text-lg font-bold">Quality system stated</p>
           </div>
         </Reveal>
 
@@ -47,7 +47,7 @@ export function CapabilitiesPreview() {
           <p className="mt-4 text-pretty text-lg leading-relaxed text-muted-foreground">
             Our vertically integrated workshops control every stage of production — sheet metal,
             busbar processing, surface treatment, assembly and electrical testing — under one
-            ISO 9001 quality system.
+            a quality approach described in the supplied company materials.
           </p>
           <ul className="mt-6 space-y-3" role="list">
             {points.map((p) => (

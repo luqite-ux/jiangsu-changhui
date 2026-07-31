@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 export const metadata: Metadata = {
   title: 'Products',
   description:
-    "Explore Chang Hui Electric's full range — 27 products across 6 categories including high & low voltage switchgear, distribution boxes, busway systems, cable trays and box-type substations. Custom-built and export-ready.",
+    "Explore Chang Hui Electric's customer-supplied list of 27 made-to-order products across 6 categories.",
 }
 
 export default function ProductsPage() {

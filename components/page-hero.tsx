@@ -20,7 +20,7 @@ export function PageHero({
         aria-hidden
       />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center gap-1.5 text-sm text-white/60" aria-label="Breadcrumb">
+        <nav className="flex items-center gap-1.5 text-sm text-white/80" aria-label="Breadcrumb">
           <Link href="/" className="transition-colors hover:text-white">
             Home
           </Link>
@@ -29,8 +29,8 @@ export function PageHero({
         </nav>
 
         {eyebrow && (
-          <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-accent">
-            <span className="h-px w-6 bg-accent" />
+          <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
+            <span className="h-px w-6 bg-accent-on-dark" />
             {eyebrow}
           </span>
         )}
@@ -38,7 +38,7 @@ export function PageHero({
           {title}
         </h1>
         {description && (
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/75 text-pretty">
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/80 text-pretty">
             {description}
           </p>
         )}

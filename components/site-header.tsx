@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Menu, X, Phone } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { nav, company } from '@/lib/site-data'
+import { nav, company, photos } from '@/lib/site-data'
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -27,10 +27,10 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-all duration-300',
+        'fixed inset-x-0 top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur-md transition-shadow duration-300',
         scrolled
-          ? 'border-b border-border/70 bg-background/85 backdrop-blur-md shadow-sm'
-          : 'bg-transparent',
+          ? 'shadow-sm'
+          : 'shadow-none',
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -38,11 +38,11 @@ export function SiteHeader() {
           <span
             className={cn(
               'relative flex items-center rounded-lg px-2.5 py-1.5 transition-colors',
-              scrolled ? 'bg-transparent' : 'bg-white/95 shadow-sm ring-1 ring-white/40',
+              'bg-transparent',
             )}
           >
             <Image
-              src="/logo.png"
+              src={photos.logo}
               alt={`${company.name} logo`}
               width={132}
               height={44}

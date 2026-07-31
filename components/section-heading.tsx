@@ -25,10 +25,10 @@ export function SectionHeading({
         <span
           className={cn(
             'inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em]',
-            invert ? 'text-accent' : 'text-accent',
+            invert ? 'text-accent-on-dark' : 'text-accent',
           )}
         >
-          <span className="h-px w-6 bg-accent" />
+          <span className={cn('h-px w-6', invert ? 'bg-accent-on-dark' : 'bg-accent')} />
           {eyebrow}
         </span>
       )}
@@ -44,7 +44,7 @@ export function SectionHeading({
         <p
           className={cn(
             'mt-4 text-lg leading-relaxed text-pretty',
-            invert ? 'text-white/75' : 'text-muted-foreground',
+            invert ? 'text-white/80' : 'text-muted-foreground',
           )}
         >
           {description}
