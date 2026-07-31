@@ -114,7 +114,10 @@ test('the production English correction script is locked to Jiangsu Changhui', a
   const module = await import('../scripts/update-jiangsu-changhui-product-english.mjs')
   const row = { tenant_id: module.TENANT_ID, slug: 'xqj-p-tray' }
 
-  assert.deepEqual(module.buildNamePatch(row), { name: 'XQJ-P Tray-Type Cable Tray' })
+  assert.deepEqual(module.buildNamePatch(row), {
+    name: 'XQJ-P Tray-Type Cable Tray',
+    name_en: 'XQJ-P Tray-Type Cable Tray',
+  })
   assert.throws(
     () => module.buildNamePatch({ ...row, tenant_id: '00000000-0000-0000-0000-000000000000' }),
     /outside tenant/,

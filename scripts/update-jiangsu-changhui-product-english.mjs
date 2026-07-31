@@ -26,14 +26,14 @@ export function buildNamePatch(row) {
   if (row?.tenant_id !== TENANT_ID) throw new Error(`Refusing row outside tenant ${TENANT_ID}`)
   const name = PRODUCT_NAME_UPDATES[row.slug]
   if (!name) throw new Error(`No approved English name for ${row.slug}`)
-  return { name }
+  return { name, name_en: name }
 }
 
 async function readRows(client) {
   const slugs = Object.keys(PRODUCT_NAME_UPDATES)
   const result = await client
     .from('products')
-    .select('id,tenant_id,slug,name')
+    .select('id,tenant_id,slug,name,name_en')
     .eq('tenant_id', TENANT_ID)
     .in('slug', slugs)
     .order('slug')
@@ -49,7 +49,9 @@ export async function run(args = process.argv.slice(2)) {
   const apply = args.includes('--apply')
   const client = createAdminClient()
   const before = await readRows(client)
-  const changes = before.filter((row) => row.name !== PRODUCT_NAME_UPDATES[row.slug])
+  const changes = before.filter(
+    (row) => row.name !== PRODUCT_NAME_UPDATES[row.slug] || row.name_en !== PRODUCT_NAME_UPDATES[row.slug],
+  )
 
   if (apply) {
     for (const row of changes) {
@@ -68,7 +70,9 @@ export async function run(args = process.argv.slice(2)) {
   const after = await readRows(client)
   if (apply) {
     for (const row of after) {
-      if (row.name !== PRODUCT_NAME_UPDATES[row.slug]) throw new Error(`Readback mismatch for ${row.slug}`)
+      if (row.name !== PRODUCT_NAME_UPDATES[row.slug] || row.name_en !== PRODUCT_NAME_UPDATES[row.slug]) {
+        throw new Error(`Readback mismatch for ${row.slug}`)
+      }
     }
   }
 
