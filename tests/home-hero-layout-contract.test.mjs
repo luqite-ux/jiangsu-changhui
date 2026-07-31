@@ -39,7 +39,11 @@ test('Hero uses the selected landscape customer video as an inert decorative bac
     'https://pub-c7a22068052144a5805830c30d280128.r2.dev/v0-design-assets/jiangsu-changhui/fe632746fdfc968d086c2afb3dfe63b2.mp4',
   )
   assert.match(hero, /import \{[^}]*heroBackgroundVideo[^}]*photos[^}]*\} from '@\/lib\/site-data'/)
-  assert.match(hero, /<video[\s\S]*?autoPlay[\s\S]*?muted[\s\S]*?loop[\s\S]*?playsInline/)
+  assert.match(hero, /const HERO_VIDEO_START_SECONDS = 4/)
+  assert.match(hero, /<video[\s\S]*?autoPlay[\s\S]*?muted[\s\S]*?playsInline/)
+  assert.doesNotMatch(hero, /<video[\s\S]*?\sloop(?:\s|>)/)
+  assert.match(hero, /onLoadedMetadata=\{\(event\) => \{[\s\S]*?event\.currentTarget\.currentTime = HERO_VIDEO_START_SECONDS[\s\S]*?\}\}/)
+  assert.match(hero, /onEnded=\{\(event\) => \{[\s\S]*?video\.currentTime = HERO_VIDEO_START_SECONDS[\s\S]*?void video\.play\(\)[\s\S]*?\}\}/)
   assert.match(hero, /preload="metadata"/)
   assert.match(hero, /poster=\{photos\.productionHallA\}/)
   assert.match(hero, /className="hero-background-video pointer-events-none absolute inset-0 h-full w-full object-cover object-center"/)

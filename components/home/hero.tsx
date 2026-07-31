@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { ArrowRight, ShieldCheck, Package, Clock } from 'lucide-react'
 import { heroBackgroundVideo, photos, productCategories } from '@/lib/site-data'
 
+const HERO_VIDEO_START_SECONDS = 4
+
 const badges = [
   { icon: ShieldCheck, label: 'Quality system stated in company materials' },
   { icon: Package, label: 'MOQ 1 Unit' },
@@ -28,10 +30,17 @@ export function Hero() {
         <video
           autoPlay
           muted
-          loop
           playsInline
           preload="metadata"
           poster={photos.productionHallA}
+          onLoadedMetadata={(event) => {
+            event.currentTarget.currentTime = HERO_VIDEO_START_SECONDS
+          }}
+          onEnded={(event) => {
+            const video = event.currentTarget
+            video.currentTime = HERO_VIDEO_START_SECONDS
+            void video.play()
+          }}
           className="hero-background-video pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
           aria-hidden="true"
           tabIndex={-1}
