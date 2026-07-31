@@ -1,22 +1,24 @@
-# 江苏昌晖电气 Production 交付前终审
+# 江苏昌晖电气正式域名 Production 交付终审
 
 - 日期：2026-07-31
-- 结论：`DONE_WITH_CONCERNS`（不得标记“已完成”）
+- 结论：`DONE_WITH_CONCERNS`（正式域名主链路已完成；共享后台退出按钮依赖另案处理）
 - 客户仓库：`D:\Cursor\Grand\jiangsu-changhui`
 - GitHub：`https://github.com/luqite-ux/jiangsu-changhui`
 - tenant：`0f4f3ffa-9a1b-468f-8408-2f59a3b64e45`
 - Vercel 项目：`jiangsu-changhui`
-- Production canonical：`https://jiangsu-changhui.vercel.app`
-- 正式域名：`暂未配置`
-- 客户邮箱/后台账号：未提供，不得猜测或创建
+- Production canonical：`https://changhuielectrical.com`
+- 正式域名：`https://changhuielectrical.com`（`www` 308 到裸域）
+- 客户邮箱/后台账号：`info@changhuielectrical.com`
 
 ## 强制结论
 
-本次客户专属代码、Vercel、产品、文章、询盘、42 条 sitemap 路由和主要 SEO 闭环已有证据；但正式域名、客户邮箱/后台账号和飞书 A–L 完整记录缺失，因此不能标记“已完成”。未修改、提交、推送或部署 `huanqiu-admin`，未操作任何其他 tenant 或 Vercel 项目。
+本次已完成客户专属代码、Vercel、Cloudflare DNS、tenant domain、正式管理员、42 条 sitemap 路由、正式域名 SEO 和飞书 A–L 闭环。营业执照与 Supabase 均确认正式中文主体为“江苏昌晖电气有限公司”。未修改、提交、推送或部署 `huanqiu-admin`，未操作任何其他 tenant、Cloudflare zone 或 Vercel 项目。唯一遗留为共享后台 Sidebar 的 Server Action 退出按钮在代理域名发出 `POST /admin/products` 后返回 500；客户站本地 `GET /admin/logout` 已验证可 303 清除双 Cookie，该共享依赖必须另开公共后台任务处理。
 
 ## 1. Vercel、GitHub 与部署
 
 - [x] PASS：Vercel 项目严格为 `jiangsu-changhui`（`prj_MMIL7hZYhofpJVAD9VuxExyFSzbp`）。
+- [x] PASS：正式域名代码 commit `9e499d12c3aeb59864fa3bc8106e70a31c244e4c` 已 fast-forward 推送到 `luqite-ux/jiangsu-changhui` 的 `main`。
+- [x] PASS：Git 集成 Production deployment `dpl_73WCLMhSzGccefzsVzeHUmbPJu1P` 为 `READY`，构建 URL 为 `https://jiangsu-changhui-eexk1979z-huanqiu.vercel.app`，aliases 同时包含裸域、www 与 `jiangsu-changhui.vercel.app`。
 - [x] PASS：Git Source 为 `github / luqite-ux / jiangsu-changhui`，Production branch 为 `main`。
 - [x] PASS：以下五个环境变量各只有一条 Vercel 记录，且 target 均覆盖 `development, preview, production`；验证过程中未输出值：
   - `NEXT_PUBLIC_SUPABASE_URL`
@@ -54,11 +56,16 @@
 - [x] PASS：service-role 按 tenant + 唯一邮箱 + 唯一 message 回读恰好一行；tenant、姓名、邮箱、电话、公司、subject、国家、产品、隐私同意、唯一标识、状态共 11 项全部匹配。
 - [x] PASS：仅删除本次测试询盘 ID `4bf786b1-7fb0-43be-8ac4-6050de816bae`；删除后原始 REST 响应为 `[]`。
 - [x] PASS：提交会话控制台 0 errors / 0 warnings；成功态截图保存在 `output/playwright/inquiry/contact-success-desktop.png`，trace 保存在本地 `.playwright-cli/traces/`。
-- [ ] BLOCKED：缺少客户邮箱/后台账号，不能进行真实 `/admin` 登录与后台 UI 列表人工验收；已完成 tenant-scoped service-role 后台数据核验，不以虚构账号绕过。
+- [x] PASS：目标邮箱全局唯一且该 tenant 原有管理员为 0；已创建管理员 `e185d38e-56c4-4a19-84b9-5c312c44cec3`，账号 `info@changhuielectrical.com`，bcrypt 与初始交付密码匹配。
+- [x] PASS：正式域名真实登录返回 303 到 `/admin`，`hq_admin_session` 与 `hq_tenant_id` 均为 `HttpOnly; Secure; SameSite=Lax; Path=/`，tenant Cookie 精确匹配 `0f4f3ffa-9a1b-468f-8408-2f59a3b64e45`；后台概览、菜单与产品列表 27 条均可访问。
+- [x] PASS：客户本地 `GET /admin/logout` 返回 303 到 `/admin/login` 并清除两个 Cookie；验证会话已清理，数据库剩余测试 session 为 0。
+- [~] CONCERN：共享 Sidebar“退出登录”按钮仍调用共享 Server Action，线上日志显示 `POST /admin/products` 500；修复需改共享 `huanqiu-admin` allowed-origins/公共退出实现，按客户任务边界未夹带处理。
 
 ## 5. 42 URL、视觉与 SEO
 
 - [x] PASS：`/sitemap.xml` HTTP 200，含 42 条 URL；Playwright 完整 crawl 为 42/42，route issue 为 0。
+- [x] PASS：正式域名 `/robots.txt` 与 `/sitemap.xml` 均 200；sitemap 42 条 URL 全部统一为 `changhuielectrical.com`，42/42 返回 200，canonical 与 `og:url` 逐项一致，JSON-LD 均可解析，19 个唯一 OG 图片 19/19 可访问。
+- [x] PASS：`https://www.changhuielectrical.com/products?source=codex&keep=1` 返回 308 到裸域并完整保留路径和查询；HTTP 到 HTTPS 同样 308，TLS 请求成功。
 - [x] PASS：42 个 title 全部唯一，42 个 description 全部唯一。
 - [x] PASS：全部公开路由 HTTP 200，canonical 与 `og:url` 对应 sitemap URL；公开页无 noindex。
 - [x] PASS：JSON-LD 全部可解析；Organization、Product/NewsArticle 和 BreadcrumbList 按页面类型存在。
@@ -70,19 +77,20 @@
 
 ## 6. 自动化验证
 
-- [x] PASS：`pnpm test` → 38/38。
+- [x] PASS：`pnpm test` → 59/59。
 - [x] PASS：`pnpm exec tsc --noEmit` → exit 0。
 - [x] PASS：`pnpm build` → exit 0；Next.js 16.2.6 Production build 完成。
 - [x] PASS：`git diff --check` / `git diff --cached --check` → exit 0。
 - [~] NOTE：build 保留 Next.js 16 对 `middleware` 文件约定弃用的既有警告，本次未扩大范围改写后台代理架构。
 
-## 7. 未满足的交付条件
+## 7. 正式域名、DNS 与飞书收尾
 
-- [ ] BLOCKED：正式域名未提供；飞书 G 列只能记录精确值 `暂未配置`，canonical 继续使用 `https://jiangsu-changhui.vercel.app`，不能执行裸域/www 迁移与正式域名 HTTPS 验证。
-- [ ] BLOCKED：客户邮箱未提供；不得猜测后台账号，也没有创建或重置密码，无法完成真实客户登录。
-- [ ] BLOCKED：飞书 A–L 要求 J/K 为真实后台账号与实际交付密码。因上述资料缺失，本次没有执行 `feishu:sync-customer`，避免写入不完整或虚构记录。
-- [ ] BLOCKED：缺少真实后台账号导致客户后台 UI 登录、退出、cookie 和询盘列表的最终人工闭环未完成。
+- [x] PASS：Vercel 已绑定 `changhuielectrical.com` 和 `www.changhuielectrical.com`。
+- [x] PASS：Cloudflare zone `f51a4c6cf52c59a1c12a7f2e0ccb6461` 仅新增两条 DNS-only A 记录到 Vercel 推荐值 `76.76.21.21`：裸域记录 `c60d142d9a3e0effa94e6e961b496e5b`、www 记录 `402169ac79130a6ca3ef7f2dd501a2b2`。原有 2 条 MX、apex TXT、DMARC、DKIM 与 3 条邮件 CNAME 均未修改。
+- [x] PASS：tenant `domain/email` 已更新为 `changhuielectrical.com` / `info@changhuielectrical.com`；正式中文名仍为营业执照原文“江苏昌晖电气有限公司”。
+- [x] PASS：飞书 `1ae2e0!A11:L11` 已新增后原位修正并 API 回读；共 12 列、同名唯一一行，D/E/F/I 链接文本正确，J 为正式账号，K 匹配实际交付密码，L 为 `Supabase / 0f4f3ffa-9a1b-468f-8408-2f59a3b64e45`，无 `[object Object]`。
+- [x] PASS：最终 v0 来源为 `https://v0.app/huanqiu/chat/s5zQJrFY4S8`；GitHub、Vercel、正式域名、后台地址与本机绝对路径均已写入飞书。
 
 ## 终审结论
 
-`DONE_WITH_CONCERNS`。客户专属代码、Production、产品、文章、询盘数据库及 42 URL 技术闭环有证据，所有测试数据已回滚/删除；正式域名、客户邮箱/后台账号、真实后台登录和飞书 A–L 仍是明确 blocker，因此不得标记“已完成”。
+`DONE_WITH_CONCERNS`。正式域名、DNS、GitHub、Production、tenant、管理员、真实登录、Cookie、42 URL SEO、图片与飞书 A–L 均有新鲜证据；所有测试 session 已清理。共享 Sidebar 退出按钮的跨域 Server Action 500 是唯一遗留，并已被严格隔离为共享后台公共改动，不得在本客户任务中修改或部署 `huanqiu-admin` Production。
