@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --animate-marquee: marquee 40s linear infinite;
+}
+
+:root {
+  color-scheme: light;
+  --radius: 0.5rem;
+
+  /* Neutrals */
+  --background: oklch(0.98 0.006 247);
+  --foreground: oklch(0.24 0.03 258);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.03 258);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.03 258);
+
+  /* Navy blue primary (from logo) */
+  --primary: oklch(0.37 0.11 256);
+  --primary-foreground: oklch(0.99 0.005 247);
+
+  --secondary: oklch(0.95 0.01 247);
+  --secondary-foreground: oklch(0.3 0.05 258);
+
+  --muted: oklch(0.955 0.008 247);
+  --muted-foreground: oklch(0.52 0.02 258);
+
+  /* Red accent (from logo) */
+  --accent: oklch(0.56 0.21 27);
+  --accent-foreground: oklch(0.99 0.005 247);
+
+  --destructive: oklch(0.56 0.21 27);
+  --border: oklch(0.9 0.01 247);
+  --input: oklch(0.9 0.01 247);
+  --ring: oklch(0.37 0.11 256);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply text-foreground;
+    background-color: var(--background);
+    background-image:
+      radial-gradient(1200px 600px at 100% -10%, oklch(0.37 0.11 256 / 0.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 10%, oklch(0.56 0.21 27 / 0.06), transparent 55%),
+      linear-gradient(180deg, oklch(0.98 0.008 247) 0%, oklch(0.96 0.01 250) 100%);
+    background-attachment: fixed;
+  }
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(1.6); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes grid-pan {
+  from { background-position: 0 0; }
+  to { background-position: 60px 60px; }
+}
+
+@keyframes sheen {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  60%, 100% { transform: translateX(220%) skewX(-20deg); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Utilities ---------- */
+.reveal {
+  opacity: 0;
+}
+.reveal.is-visible {
+  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 30s linear infinite; }
+
+.tech-grid {
+  background-image:
+    linear-gradient(to right, oklch(0.37 0.11 256 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.37 0.11 256 / 0.07) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: grid-pan 12s linear infinite;
+}
+
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.35), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+}
+.sheen:hover::after {
+  animation: sheen 0.9s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, .reveal { animation: none !important; }
+  .reveal { opacity: 1 !important; }
+  html { scroll-behavior: auto; }
+}

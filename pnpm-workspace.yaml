@@ -1,0 +1,9 @@
+packages:
+  - '.'
+
+allowBuilds:
+  msw: false
+  sharp: false
+
+overrides:
+  hono: 4.12.25
