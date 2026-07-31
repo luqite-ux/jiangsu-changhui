@@ -5,12 +5,14 @@ import { Reveal } from '@/components/reveal'
 import { ContactForm } from '@/components/contact-form'
 import { resolveInitialProduct } from '@/lib/inquiries'
 import { company, products } from '@/lib/site-data'
+import { buildPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: 'Contact Us',
   description:
     'Get in touch with CHANG HUI ELECTRIC (Jiangsu Changhui Electric Co., Ltd.) for quotations, technical support and OEM/ODM inquiries on switchgear, busway and cable tray systems.',
-}
+  path: '/contact',
+})
 
 const contactCards = [
   {

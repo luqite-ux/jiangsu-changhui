@@ -11,6 +11,7 @@ type ArticleRow = {
   featured_image: string | null
   published_at: string | null
   created_at: string
+  updated_at: string | null
 }
 
 export type ArticleSummary = {
@@ -20,6 +21,7 @@ export type ArticleSummary = {
   image: string | null
   publishedAt: string
   category: string
+  updatedAt: string
 }
 
 export type ArticleDetail = ArticleSummary & {
@@ -27,7 +29,7 @@ export type ArticleDetail = ArticleSummary & {
 }
 
 const articleSelection =
-  'slug,title,title_en,excerpt,excerpt_en,content,content_en,featured_image,published_at,created_at'
+  'slug,title,title_en,excerpt,excerpt_en,content,content_en,featured_image,published_at,created_at,updated_at'
 
 function mapArticleRow(row: ArticleRow): ArticleDetail {
   return {
@@ -38,6 +40,7 @@ function mapArticleRow(row: ArticleRow): ArticleDetail {
     image: row.featured_image,
     publishedAt: row.published_at || row.created_at,
     category: 'Company News',
+    updatedAt: row.updated_at || row.published_at || row.created_at,
   }
 }
 

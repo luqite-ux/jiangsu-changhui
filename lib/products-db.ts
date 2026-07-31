@@ -20,6 +20,7 @@ type ProductRow = {
   applications: unknown
   extra_data: unknown
   sort_order: number | null
+  updated_at: string | null
 }
 
 type CategoryRow = {
@@ -30,10 +31,11 @@ type CategoryRow = {
   description_en: string | null
   extra_data: unknown
   sort_order: number | null
+  updated_at: string | null
 }
 
 const productSelection =
-  'slug,name,name_en,description,description_en,overview,overview_en,image_url,category,category_slug,applications,extra_data,sort_order'
+  'slug,name,name_en,description,description_en,overview,overview_en,image_url,category,category_slug,applications,extra_data,sort_order,updated_at'
 
 function objectValue(value: unknown): Record<string, unknown> {
   return value && typeof value === 'object' && !Array.isArray(value)
@@ -71,6 +73,7 @@ export function mapProductRow(row: ProductRow): Product {
       'Please provide drawings, quantities and project requirements for engineering review and quotation.',
     applications: stringArray(row.applications),
     relatedSlugs: stringArray(extra.relatedSlugs),
+    updatedAt: row.updated_at || undefined,
   }
 }
 
@@ -85,6 +88,7 @@ function mapCategoryRow(row: CategoryRow, products: Product[]): ProductCategory 
     short: row.description_en || row.description || '',
     productSlugs: categoryProducts.map((product) => product.slug),
     products: categoryProducts,
+    updatedAt: row.updated_at || undefined,
   }
 }
 
@@ -115,7 +119,7 @@ export async function fetchProductsData(): Promise<{
       .order('sort_order', { ascending: true }),
     client
       .from('product_categories')
-      .select('slug,name,name_en,description,description_en,extra_data,sort_order')
+      .select('slug,name,name_en,description,description_en,extra_data,sort_order,updated_at')
       .eq('tenant_id', tenantId)
       .eq('is_active', true)
       .order('sort_order', { ascending: true }),

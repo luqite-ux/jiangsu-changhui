@@ -116,6 +116,7 @@ export type Product = {
   customNote: string
   applications: string[]
   relatedSlugs: string[]
+  updatedAt?: string
 }
 
 export type ProductCategory = {
@@ -125,6 +126,7 @@ export type ProductCategory = {
   short: string
   productSlugs: string[]
   products: Product[]
+  updatedAt?: string
 }
 
 // Convenient alias used by components

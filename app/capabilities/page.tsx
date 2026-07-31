@@ -15,12 +15,15 @@ import { SectionHeading } from '@/components/section-heading'
 import { Reveal } from '@/components/reveal'
 import { CustomerVideoGallery } from '@/components/customer-video-gallery'
 import { photos } from '@/lib/site-data'
+import { buildPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: 'Manufacturing & Quality Capabilities',
   description:
     'Explore the manufacturing processes and equipment described in Chang Hui Electric’s supplied company materials.',
-}
+  path: '/capabilities',
+  image: photos.productionHallC,
+})
 
 const process = [
   {

@@ -5,12 +5,14 @@ import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { FaqAccordion } from '@/components/faq-accordion'
 import { faqs } from '@/lib/site-data'
+import { buildPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: 'FAQ',
   description:
     'Frequently asked questions about Chang Hui Electric products, pricing, samples, lead times and quality control for international buyers.',
-}
+  path: '/faq',
+})
 
 export default function FaqPage() {
   return (

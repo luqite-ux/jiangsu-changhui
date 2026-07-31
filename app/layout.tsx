@@ -4,6 +4,8 @@ import { Inter, Space_Grotesk } from 'next/font/google'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { FloatingContact } from '@/components/floating-contact'
+import { company, photos } from '@/lib/site-data'
+import { buildOrganizationJsonLd, buildPageMetadata, serializeJsonLd } from '@/lib/seo'
 import './globals.css'
 
 const inter = Inter({
@@ -18,16 +20,22 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
-const productionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL
+const homeDescription =
+  'Jiangsu Changhui Electric Co., Ltd. lists high and low voltage switchgear, distribution boxes, busway systems, cable trays and related made-to-order electrical equipment.'
+const homeSeo = buildPageMetadata({
+  title: 'CHANG HUI ELECTRIC | HV & LV Switchgear, Busway & Cable Tray Manufacturer',
+  description: homeDescription,
+  path: '/',
+})
+const organizationJsonLd = buildOrganizationJsonLd(company, photos.logo)
 
 export const metadata: Metadata = {
-  metadataBase: productionHost ? new URL(`https://${productionHost}`) : undefined,
+  ...homeSeo,
   title: {
     default: 'CHANG HUI ELECTRIC | HV & LV Switchgear, Busway & Cable Tray Manufacturer',
     template: '%s | CHANG HUI ELECTRIC',
   },
-  description:
-    'Jiangsu Changhui Electric Co., Ltd. lists high and low voltage switchgear, distribution boxes, busway systems, cable trays and related made-to-order electrical equipment.',
+  description: homeDescription,
   keywords: [
     'switchgear manufacturer',
     'busway system',
@@ -44,13 +52,6 @@ export const metadata: Metadata = {
     shortcut: '/logo.png',
     apple: '/logo.png',
   },
-  openGraph: {
-    title: 'CHANG HUI ELECTRIC',
-    description:
-      'Made-to-order electrical distribution equipment based on customer drawings and project requirements.',
-    type: 'website',
-    locale: 'en_US',
-  },
 }
 
 export const viewport: Viewport = {
@@ -65,6 +66,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`light ${inter.variable} ${spaceGrotesk.variable}`}>
+      <head>
+        <script
+          id="organization-json-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationJsonLd) }}
+        />
+      </head>
       <body className="bg-background font-sans antialiased">
         <SiteHeader />
         <main className="min-h-screen">{children}</main>

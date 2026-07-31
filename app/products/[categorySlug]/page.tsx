@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Tag } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { fetchProductsData } from '@/lib/products-db'
+import { buildPageMetadata } from '@/lib/seo'
 
 export const revalidate = 60
 export const dynamicParams = true
@@ -17,10 +18,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { categories } = await fetchProductsData()
   const cat = categories.find((category) => category.slug === categorySlug)
   if (!cat) return {}
-  return {
+  return buildPageMetadata({
     title: cat.name,
     description: `${cat.name} products by Jiangsu Changhui Electric — ${cat.short} Custom-built to your project drawings.`,
-  }
+    path: `/products/${cat.slug}`,
+    image: cat.image,
+  })
 }
 
 export default async function CategoryPage({ params }: Props) {

@@ -7,12 +7,15 @@ import { SectionHeading } from '@/components/section-heading'
 import { Reveal } from '@/components/reveal'
 import { CountUp } from '@/components/count-up'
 import { company, stats, photos } from '@/lib/site-data'
+import { buildPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: 'About Us',
   description:
     'Learn about Jiangsu Changhui Electric Co., Ltd. — an integrated R&D, design, manufacturing and sales enterprise specializing in high & low voltage electrical distribution equipment.',
-}
+  path: '/about',
+  image: photos.factoryExteriorA,
+})
 
 const values = [
   {
