@@ -26,13 +26,16 @@ export function ProductDetailClient({ product, related }: Props) {
           <Reveal>
             <div className="space-y-3">
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-secondary shadow-xl shadow-primary/8">
-                <Image src={images[0]} alt={product.name} fill priority className="object-cover object-top" sizes="(max-width: 1024px) 100vw, 50vw" />
+                <Image src={images[0]} alt={product.imageAlt ?? 'Manufacturing reference — customer-supplied photo, not model-specific.'} fill priority className="object-cover object-top" sizes="(max-width: 1024px) 100vw, 50vw" />
               </div>
+              <p className="rounded-lg border border-border bg-card px-3 py-2 text-xs font-medium leading-relaxed text-foreground/80">
+                {product.imageContext ?? 'Manufacturing reference — customer-supplied photo, not model-specific.'}
+              </p>
               {images.length > 1 && (
                 <div className="grid grid-cols-4 gap-2">
                   {images.slice(1, 5).map((image) => (
                     <div key={image} className="relative aspect-square overflow-hidden rounded-lg border border-border bg-secondary">
-                      <Image src={image} alt={`${product.name} gallery view`} fill className="object-cover" sizes="20vw" />
+                      <Image src={image} alt={`${product.imageAlt ?? 'Manufacturing reference — customer-supplied photo, not model-specific.'} Gallery reference.`} fill className="object-cover" sizes="20vw" />
                     </div>
                   ))}
                 </div>
@@ -88,7 +91,7 @@ export function ProductDetailClient({ product, related }: Props) {
               {related.map((item, index) => (
                 <Reveal key={item.slug} delay={index * 80}>
                   <Link href={`/products/${item.category}/${item.slug}`} className="group flex gap-4 rounded-xl border border-border bg-card p-4 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/8">
-                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-secondary"><Image src={item.image} alt={item.name} fill className="object-cover" sizes="80px" /></div>
+                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-secondary"><Image src={item.image} alt={item.imageAlt ?? 'Manufacturing reference — customer-supplied photo, not model-specific.'} fill className="object-cover" sizes="80px" /></div>
                     <div className="min-w-0 flex-1"><p className="text-xs font-medium text-accent">{item.categoryName}</p><p className="mt-0.5 text-sm font-semibold leading-snug text-primary line-clamp-2">{item.name}</p><span className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground group-hover:text-primary">View details<ArrowRight className="h-3 w-3" aria-hidden /></span></div>
                   </Link>
                 </Reveal>

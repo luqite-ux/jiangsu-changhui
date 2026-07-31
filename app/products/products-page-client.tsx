@@ -47,11 +47,14 @@ export function ProductsPageClient({ products, categories }: Props) {
                   <div className={cn('grid items-start gap-10 lg:grid-cols-2')}>
                     <Reveal className={cn(reversed && 'lg:order-2')}>
                       <div className="group relative overflow-hidden rounded-2xl border border-border bg-secondary shadow-xl shadow-primary/8">
-                        <Image src={cat.image} alt={`${cat.name} — manufactured by Jiangsu Changhui Electric`} width={720} height={540} className="aspect-[4/3] w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 1024px) 100vw, 50vw" />
+                        <Image src={cat.image} alt={cat.imageAlt ?? 'Manufacturing reference — customer-supplied photo, not model-specific.'} width={720} height={540} className="aspect-[4/3] w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 1024px) 100vw, 50vw" />
                         <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-primary-foreground backdrop-blur-sm">
                           <Boxes className="h-3.5 w-3.5" aria-hidden />
                           {String(i + 1).padStart(2, '0')} / {String(categories.length).padStart(2, '0')}
                         </span>
+                        <p className="absolute inset-x-4 bottom-4 rounded-md bg-slate-950/90 px-3 py-2 text-xs font-medium leading-snug text-white shadow-sm backdrop-blur-sm">
+                          {cat.imageContext ?? 'Manufacturing reference — customer-supplied photo, not model-specific.'}
+                        </p>
                       </div>
                     </Reveal>
 

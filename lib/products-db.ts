@@ -65,6 +65,12 @@ export function mapProductRow(row: ProductRow): Product {
     categoryName: row.category || '',
     image,
     images: images.length > 0 ? images : [image],
+    imageAlt:
+      stringValue(extra.imageAlt) ||
+      'Manufacturing reference — customer-supplied photo, not model-specific.',
+    imageContext:
+      stringValue(extra.imageContext) ||
+      'Manufacturing reference — customer-supplied photo, not model-specific.',
     description: row.description_en || row.description || '',
     customNote:
       stringValue(extra.customNote) ||
@@ -85,6 +91,12 @@ function mapCategoryRow(row: CategoryRow, products: Product[]): ProductCategory 
     slug: row.slug,
     name: row.name_en || row.name,
     image: stringValue(extra.image_url) || categoryProducts[0]?.image || '/products/hv-switchgear.png',
+    imageAlt:
+      stringValue(extra.imageAlt) ||
+      'Manufacturing reference — customer-supplied photo, not model-specific.',
+    imageContext:
+      stringValue(extra.imageContext) ||
+      'Manufacturing reference — customer-supplied photo, not model-specific.',
     short: row.description_en || row.description || '',
     productSlugs: categoryProducts.map((product) => product.slug),
     products: categoryProducts,

@@ -67,12 +67,15 @@ export default async function CategoryPage({ params }: Props) {
                 <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
                   <Image
                     src={prod.image}
-                    alt={`Neutral category illustration for ${prod.name}`}
+                    alt={prod.imageAlt ?? 'Manufacturing reference — customer-supplied photo, not model-specific.'}
                     fill
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <p className="absolute inset-x-3 bottom-3 z-10 rounded-md bg-slate-950/90 px-2.5 py-1.5 text-[11px] font-medium leading-snug text-white shadow-sm backdrop-blur-sm">
+                    {prod.imageContext ?? 'Manufacturing reference — customer-supplied photo, not model-specific.'}
+                  </p>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <div className="flex items-start justify-between gap-3">

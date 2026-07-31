@@ -112,6 +112,8 @@ export type Product = {
   categoryName: string
   image: string
   images?: string[]
+  imageAlt?: string
+  imageContext?: string
   description: string
   customNote: string
   applications: string[]
@@ -123,6 +125,8 @@ export type ProductCategory = {
   slug: string
   name: string
   image: string
+  imageAlt?: string
+  imageContext?: string
   short: string
   productSlugs: string[]
   products: Product[]
