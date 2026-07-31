@@ -28,7 +28,7 @@ export function CustomerVideoGallery() {
                   <source src={video.src} type="video/mp4" />
                   <track
                     kind="captions"
-                    src="/captions/customer-media.vtt"
+                    src={video.trackSrc}
                     srcLang="en"
                     label="English"
                     default

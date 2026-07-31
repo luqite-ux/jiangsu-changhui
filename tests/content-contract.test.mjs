@@ -36,7 +36,7 @@ async function loadSiteData() {
 }
 
 test('published content contains only confirmed contact, address, area and equipment facts', async () => {
-  const { company, stats } = await loadSiteData()
+  const { company, productCategories, stats } = await loadSiteData()
 
   assert.deepEqual(company.phones, ['+86-153-5862-3101', '+86-511-8888-1633'])
   assert.equal(
@@ -45,6 +45,7 @@ test('published content contains only confirmed contact, address, area and equip
   )
   assert.equal(stats.find(({ value }) => value === '25,000')?.label, 'Building Area')
   assert.equal('whatsapp' in company, false, 'an unconfirmed WhatsApp account must not be published')
+  assert.equal(productCategories.length, 6)
 })
 
 test('visible source excludes unsupported claims and all preview placeholders', async () => {
@@ -72,7 +73,34 @@ test('visible source excludes unsupported claims and all preview placeholders', 
   }
 
   const contactForm = await readProjectFile('components/contact-form.tsx')
-  assert.doesNotMatch(contactForm, /window\.location|setSubmitted\(true\)/, 'the contact UI must not simulate success')
+  assert.doesNotMatch(contactForm, /mailto:|window\.location|setSubmitted\(true\)|alert\(|console\.log|setTimeout/, 'the contact UI must not simulate success')
+})
+
+test('inquiry form preserves all required lead fields without pretending to submit', async () => {
+  const form = await readProjectFile('components/contact-form.tsx')
+
+  assert.match(form, /<form\b/)
+  for (const field of ['name', 'email', 'phone', 'company', 'country', 'product', 'message', 'attachment', 'privacy']) {
+    assert.match(form, new RegExp(`name=["']${field}["']`), `missing inquiry field: ${field}`)
+  }
+  assert.match(form, /name="attachment"[\s\S]*?type="file"|type="file"[\s\S]*?name="attachment"/)
+  assert.match(form, /name="privacy"[\s\S]*?required/)
+  assert.match(form, /online submission is being connected/i)
+  assert.match(form, /type="submit"[\s\S]*?disabled/)
+})
+
+test('small text contrast classes and reduced-motion fallbacks stay compliant', async () => {
+  const visibleSource = [
+    ...(await collectVisibleSource('app')),
+    ...(await collectVisibleSource('components')),
+  ].map(({ source }) => source).join('\n')
+  const styles = await readProjectFile('app/globals.css')
+
+  assert.doesNotMatch(visibleSource, /text-white\/(?:50|55|60|65)\b/)
+  assert.doesNotMatch(visibleSource, /text-foreground\/60\b/)
+  assert.match(styles, /prefers-reduced-motion:[\s\S]*animation-delay:\s*0(?:ms|s)\s*!important/)
+  assert.match(styles, /prefers-reduced-motion:[\s\S]*transition-delay:\s*0(?:ms|s)\s*!important/)
+  assert.match(styles, /\.reveal\s*\{[^}]*opacity:\s*1\s*!important[^}]*transform:\s*none\s*!important/s)
 })
 
 test('Vercel Analytics is not injected by a local production server', async () => {

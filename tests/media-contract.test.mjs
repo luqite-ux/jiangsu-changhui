@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
-import { dirname, resolve } from 'node:path'
+import { readdir, readFile } from 'node:fs/promises'
+import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 import ts from 'typescript'
@@ -45,6 +45,23 @@ async function readProjectFile(relativePath) {
   return readFile(resolve(repositoryRoot, relativePath), 'utf8')
 }
 
+async function listFilesRecursively(directory) {
+  const absoluteDirectory = resolve(repositoryRoot, directory)
+  const entries = await readdir(absoluteDirectory, { withFileTypes: true })
+  const files = []
+
+  for (const entry of entries) {
+    const absolutePath = join(absoluteDirectory, entry.name)
+    if (entry.isDirectory()) {
+      files.push(...(await listFilesRecursively(relative(repositoryRoot, absolutePath))))
+    } else {
+      files.push(relative(repositoryRoot, absolutePath).replaceAll('\\', '/'))
+    }
+  }
+
+  return files
+}
+
 async function loadSiteData() {
   const source = await readProjectFile('lib/site-data.ts')
   const javascript = ts.transpileModule(source, {
@@ -66,17 +83,31 @@ test('all 24 confirmed image assets are present once in the customer media colle
 test('all five confirmed videos flow through the accessible native video gallery', async () => {
   const { customerVideos } = await loadSiteData()
   const gallery = await readProjectFile('components/customer-video-gallery.tsx')
+  const capabilitiesPage = await readProjectFile('app/capabilities/page.tsx')
 
   assert.deepEqual(customerVideos.map(({ src }) => src), videoFiles.map((file) => `${r2Base}${file}`))
   assert.ok(customerVideos.every(({ title, description }) => /customer-supplied/i.test(`${title} ${description}`)))
+  assert.equal(new Set(customerVideos.map(({ trackSrc }) => trackSrc)).size, 5)
+  assert.ok(customerVideos.every(({ trackSrc }) => /^\/captions\/[\w-]+\.vtt$/.test(trackSrc)))
+  for (const video of customerVideos) {
+    const vtt = await readProjectFile(`public${video.trackSrc}`)
+    assert.match(vtt, /^WEBVTT\s/m)
+    assert.match(vtt, /\d{2}:\d{2}\.\d{3}\s+-->\s+\d{2}:\d{2}\.\d{3}/)
+    assert.doesNotMatch(vtt, /No transcript or editorial narration was included/i)
+    assert.ok(vtt.replace(/^WEBVTT\s*/, '').trim().length > 40, `${video.trackSrc} must contain useful timed captions`)
+  }
   assert.match(gallery, /customerVideos\.map/)
   assert.match(gallery, /<video[\s\S]*?controls[\s\S]*?playsInline/)
   assert.match(gallery, /<track[\s\S]*?kind="captions"/)
+  assert.match(gallery, /src=\{video\.trackSrc\}/)
+  assert.match(capabilitiesPage, /CustomerVideoGallery/)
 })
 
 test('the business licence is never included in public assets or published source', async () => {
-  const publicFiles = await import('node:fs/promises').then(({ readdir }) => readdir(resolve(repositoryRoot, 'public')))
-  const source = `${await readProjectFile('lib/site-data.ts')}\n${await readProjectFile('components/customer-video-gallery.tsx').catch(() => '')}`
+  const allFiles = await listFilesRecursively('.')
+  const publicFiles = allFiles.filter((name) => name.startsWith('public/'))
+  const sourceFiles = allFiles.filter((name) => /^(?:app|components|lib)\/.+\.(?:ts|tsx)$/.test(name))
+  const source = (await Promise.all(sourceFiles.map(readProjectFile))).join('\n')
 
   assert.ok(publicFiles.every((name) => !/licen[cs]e|营业执照|营业职照|昌晖正本/i.test(name)))
   assert.doesNotMatch(source, /licen[cs]e\.(?:jpe?g|png)|营业执照|营业职照|昌晖正本/i)

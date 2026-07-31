@@ -13,6 +13,7 @@ import {
 import { PageHero } from '@/components/page-hero'
 import { SectionHeading } from '@/components/section-heading'
 import { Reveal } from '@/components/reveal'
+import { CustomerVideoGallery } from '@/components/customer-video-gallery'
 import { photos } from '@/lib/site-data'
 
 export const metadata: Metadata = {
@@ -161,7 +162,7 @@ export default function CapabilitiesPage() {
                   <div key={e.name} className="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                       <p className="font-medium text-white">{e.name}</p>
-                      <p className="text-sm text-white/60">{e.use}</p>
+                      <p className="text-sm text-white/80">{e.use}</p>
                     </div>
                     <span className="mt-1 inline-flex w-fit rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-accent-on-dark sm:mt-0">
                       {e.spec}
@@ -228,6 +229,8 @@ export default function CapabilitiesPage() {
           </div>
         </div>
       </section>
+
+      <CustomerVideoGallery />
     </>
   )
 }

@@ -98,11 +98,11 @@ export const customerImageAssets = [
 ]
 
 export const customerVideos = [
-  { src: r2Asset('6ac3922c83d45e180deaaa40ed76094a.mp4'), title: 'Customer-supplied company video 1', description: 'Original video supplied by Jiangsu Changhui Electric; presented without an inferred model or process label.' },
-  { src: r2Asset('71567e513fa6260a173a4f721bb6cb50.mp4'), title: 'Customer-supplied company video 2', description: 'Original video supplied by Jiangsu Changhui Electric; presented without an inferred model or process label.' },
-  { src: r2Asset('8a23dc13e83287e70477bd094f7c134d.mp4'), title: 'Customer-supplied company video 3', description: 'Original video supplied by Jiangsu Changhui Electric; presented without an inferred model or process label.' },
-  { src: r2Asset('a606292cd803c6034f21c14a4e93a42c.mp4'), title: 'Customer-supplied company video 4', description: 'Original video supplied by Jiangsu Changhui Electric; presented without an inferred model or process label.' },
-  { src: r2Asset('fe632746fdfc968d086c2afb3dfe63b2.mp4'), title: 'Customer-supplied company video 5', description: 'Original video supplied by Jiangsu Changhui Electric; presented without an inferred model or process label.' },
+  { src: r2Asset('6ac3922c83d45e180deaaa40ed76094a.mp4'), trackSrc: '/captions/cabinet-wiring-ambient.vtt', title: 'Customer-supplied company video 1', description: 'A customer-supplied vertical clip of cabinet wiring work. The original audio contains workshop ambience and handling sounds; local Whisper analysis found no meaningful speech.' },
+  { src: r2Asset('71567e513fa6260a173a4f721bb6cb50.mp4'), trackSrc: '/captions/brief-cabinet-pan-ambient.vtt', title: 'Customer-supplied company video 2', description: 'A brief customer-supplied view of electrical cabinets. The original audio contains short workshop ambience; local Whisper analysis found no meaningful speech.' },
+  { src: r2Asset('8a23dc13e83287e70477bd094f7c134d.mp4'), trackSrc: '/captions/cabinet-work-ambient.vtt', title: 'Customer-supplied company video 3', description: 'A customer-supplied vertical clip of work inside a cabinet. The original audio contains workshop ambience and light work sounds; local Whisper analysis found no meaningful speech.' },
+  { src: r2Asset('a606292cd803c6034f21c14a4e93a42c.mp4'), trackSrc: '/captions/extended-cabinet-work-ambient.vtt', title: 'Customer-supplied company video 4', description: 'A longer customer-supplied clip of cabinet work and nearby test equipment. The original audio is continuous workshop ambience without meaningful speech.' },
+  { src: r2Asset('fe632746fdfc968d086c2afb3dfe63b2.mp4'), trackSrc: '/captions/workshop-pan-ambient.vtt', title: 'Customer-supplied company video 5', description: 'A customer-supplied horizontal pan across cabinets on a workshop floor. The original audio contains changing workshop ambience; local Whisper analysis found no meaningful speech.' },
 ]
 
 export type Product = {

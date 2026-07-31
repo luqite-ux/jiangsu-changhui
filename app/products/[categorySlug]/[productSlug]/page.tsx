@@ -100,7 +100,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
             {/* Applications */}
             <div className="mt-6">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/60">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/75">
                 Typical Applications
               </h2>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -127,7 +127,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
             {/* What to send */}
             <div className="mt-6">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/60">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/75">
                 What to Include in Your Enquiry
               </h2>
               <ul className="mt-3 space-y-2" role="list">

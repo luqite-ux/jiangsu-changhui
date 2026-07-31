@@ -158,8 +158,14 @@
   *, *::before, *::after, .reveal {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
-  .reveal { opacity: 1 !important; }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
   html { scroll-behavior: auto; }
 }
