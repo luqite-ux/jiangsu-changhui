@@ -155,6 +155,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-background-video {
+    display: none !important;
+  }
   *, *::before, *::after, .reveal {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

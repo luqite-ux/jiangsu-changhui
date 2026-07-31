@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Menu, X, Phone } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { nav, company, photos } from '@/lib/site-data'
+import { nav, company } from '@/lib/site-data'
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -33,20 +33,20 @@ export function SiteHeader() {
           : 'shadow-none',
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-3" aria-label={company.name}>
+      <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:min-h-[88px] lg:gap-4 lg:px-8 lg:py-3">
+        <Link href="/" className="flex shrink-0 items-center" aria-label={company.name}>
           <span
             className={cn(
-              'relative flex items-center rounded-lg px-2.5 py-1.5 transition-colors',
+              'relative flex items-center rounded-lg transition-colors',
               'bg-transparent',
             )}
           >
             <Image
-              src={photos.logo}
+              src="/logo-header.png"
               alt={`${company.name} logo`}
-              width={132}
-              height={44}
-              className="h-9 w-auto object-contain sm:h-10"
+              width={340}
+              height={306}
+              className="h-[52px] w-auto object-contain lg:h-16"
               priority
             />
           </span>
@@ -106,7 +106,7 @@ export function SiteHeader() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'rounded-md px-4 py-3 text-base font-medium transition-colors',
+                    'min-h-12 rounded-md px-4 py-3 text-base font-medium transition-colors',
                     active ? 'bg-secondary text-primary' : 'text-foreground/80 hover:bg-secondary',
                   )}
                 >

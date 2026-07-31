@@ -105,6 +105,9 @@ export const customerVideos = [
   { src: r2Asset('fe632746fdfc968d086c2afb3dfe63b2.mp4'), trackSrc: '/captions/workshop-pan-ambient.vtt', title: 'Customer-supplied company video 5', description: 'A customer-supplied horizontal pan across cabinets on a workshop floor. The original audio contains changing workshop ambience; local Whisper analysis found no meaningful speech.' },
 ]
 
+// The only sustained landscape workshop overview among the supplied clips.
+export const heroBackgroundVideo = customerVideos[4]
+
 export type Product = {
   slug: string
   name: string

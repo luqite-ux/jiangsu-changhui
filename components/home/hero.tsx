@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, ShieldCheck, Package, Clock } from 'lucide-react'
-import { photos, productCategories } from '@/lib/site-data'
+import { heroBackgroundVideo, photos, productCategories } from '@/lib/site-data'
 
 const badges = [
   { icon: ShieldCheck, label: 'Quality system stated in company materials' },
@@ -14,19 +14,33 @@ const badges = [
 export function Hero() {
   return (
     <section className="relative isolate overflow-hidden">
-      {/* Background image + overlays */}
-      <div className="absolute inset-0 -z-10">
+      {/* Static fallback, customer video, and independent contrast overlays */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
         <Image
           src={photos.productionHallA}
           alt="Customer-supplied company photograph from Jiangsu Changhui Electric"
           fill
           priority
-          className="object-cover object-center"
+          loading="eager"
+          className="hero-background-poster object-cover object-center"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-        <div className="absolute inset-0 tech-grid opacity-40" aria-hidden />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={photos.productionHallA}
+          className="hero-background-video pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+          aria-hidden="true"
+          tabIndex={-1}
+        >
+          <source src={heroBackgroundVideo.src} type="video/mp4" />
+        </video>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/40" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 tech-grid opacity-40" aria-hidden />
       </div>
 
       {/* Floating decorative rings */}

@@ -4,7 +4,7 @@ import { Reveal } from '@/components/reveal'
 
 export function StatsStrip() {
   return (
-    <section className="relative z-10 mx-auto -mt-14 max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section className="relative z-10 mx-auto mt-8 max-w-6xl px-4 sm:mt-10 sm:px-6 lg:mt-12 lg:px-8">
       <div className="grid grid-cols-2 overflow-hidden rounded-xl border border-border bg-card shadow-xl shadow-primary/5 lg:grid-cols-4">
         {stats.map((s, i) => (
           <Reveal
