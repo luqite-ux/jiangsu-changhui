@@ -76,7 +76,7 @@ test('visible source excludes unsupported claims and all preview placeholders', 
   assert.doesNotMatch(contactForm, /mailto:|window\.location|setSubmitted\(true\)|alert\(|console\.log|setTimeout/, 'the contact UI must not simulate success')
 })
 
-test('inquiry form preserves all required lead fields without pretending to submit', async () => {
+test('inquiry form preserves all required lead fields for real submission', async () => {
   const form = await readProjectFile('components/contact-form.tsx')
 
   assert.match(form, /<form\b/)
@@ -85,8 +85,9 @@ test('inquiry form preserves all required lead fields without pretending to subm
   }
   assert.match(form, /name="attachment"[\s\S]*?type="file"|type="file"[\s\S]*?name="attachment"/)
   assert.match(form, /name="privacy"[\s\S]*?required/)
-  assert.match(form, /online submission is being connected/i)
-  assert.match(form, /type="submit"[\s\S]*?disabled/)
+  assert.match(form, /submitInquiry/)
+  assert.doesNotMatch(form, /online submission is being connected/i)
+  assert.doesNotMatch(form, /type="submit"[\s\S]*?disabled(?:\s|>)/)
 })
 
 test('small text contrast classes and reduced-motion fallbacks stay compliant', async () => {

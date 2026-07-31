@@ -5,17 +5,17 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Tag } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
-import { productCategories, getProductsByCategory } from '@/lib/site-data'
+import { fetchProductsData } from '@/lib/products-db'
+
+export const revalidate = 60
+export const dynamicParams = true
 
 type Props = { params: Promise<{ categorySlug: string }> }
 
-export async function generateStaticParams() {
-  return productCategories.map((c) => ({ categorySlug: c.slug }))
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { categorySlug } = await params
-  const cat = productCategories.find((c) => c.slug === categorySlug)
+  const { categories } = await fetchProductsData()
+  const cat = categories.find((category) => category.slug === categorySlug)
   if (!cat) return {}
   return {
     title: cat.name,
@@ -25,10 +25,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategoryPage({ params }: Props) {
   const { categorySlug } = await params
-  const cat = productCategories.find((c) => c.slug === categorySlug)
+  const { categories, products } = await fetchProductsData()
+  const cat = categories.find((category) => category.slug === categorySlug)
   if (!cat) notFound()
 
-  const catProducts = getProductsByCategory(categorySlug)
+  const catProducts = products.filter((product) => product.category === categorySlug)
 
   return (
     <>

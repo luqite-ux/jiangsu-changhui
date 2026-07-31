@@ -1,11 +1,54 @@
-import { FileUp, Send } from 'lucide-react'
+'use client'
+
+import { type FormEvent, useState } from 'react'
+import { FileUp, LoaderCircle, Send } from 'lucide-react'
+import { submitInquiry, type InquiryInput } from '@/lib/inquiries'
 
 const inputClass =
   'w-full rounded-md border border-input bg-background px-4 py-3 text-sm text-foreground shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/25'
 
 export function ContactForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [result, setResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (isSubmitting) return
+
+    const form = event.currentTarget
+    const data = new FormData(form)
+    const attachment = data.get('attachment')
+    const input: InquiryInput = {
+      name: String(data.get('name') || ''),
+      email: String(data.get('email') || ''),
+      phone: String(data.get('phone') || ''),
+      company: String(data.get('company') || ''),
+      country: String(data.get('country') || ''),
+      product: String(data.get('product') || ''),
+      attachmentName: attachment instanceof File && attachment.size > 0 ? attachment.name : '',
+      message: String(data.get('message') || ''),
+    }
+
+    setIsSubmitting(true)
+    setResult(null)
+    try {
+      const response = await submitInquiry(input)
+      if (response.ok) {
+        form.reset()
+        setResult({ type: 'success', message: 'Inquiry sent successfully. Thank you for contacting us.' })
+      } else {
+        setResult({ type: 'error', message: response.message })
+      }
+    } catch {
+      setResult({ type: 'error', message: 'We could not send your inquiry. Please try again or contact us by email.' })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <form
+      onSubmit={handleSubmit}
       className="rounded-xl border border-border bg-card p-6 shadow-sm sm:p-8"
       aria-describedby="inquiry-connection-status"
     >
@@ -94,6 +137,9 @@ export function ContactForm() {
             accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
             className="sr-only"
           />
+          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            The selected filename is included with your inquiry; our team will arrange secure document transfer when replying.
+          </p>
         </div>
 
         <label className="flex items-start gap-3 text-sm leading-relaxed text-foreground sm:col-span-2">
@@ -107,21 +153,24 @@ export function ContactForm() {
         </label>
       </div>
 
-      <div
-        id="inquiry-connection-status"
-        role="status"
-        className="mt-6 rounded-md border border-primary/30 bg-primary/5 px-4 py-3 text-sm text-foreground"
-      >
-        Online submission is being connected. The form is available for field review but cannot be sent yet.
-      </div>
+      {result?.type === 'success' && (
+        <div id="inquiry-connection-status" role="status" className="mt-6 rounded-md border border-emerald-700/40 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+          {result.message}
+        </div>
+      )}
+      {result?.type === 'error' && (
+        <div id="inquiry-connection-status" role="alert" className="mt-6 rounded-md border border-red-700/40 bg-red-50 px-4 py-3 text-sm text-red-900">
+          {result.message}
+        </div>
+      )}
 
       <button
         type="submit"
-        disabled
-        className="mt-4 inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-md bg-primary/65 px-6 py-3.5 text-base font-semibold text-primary-foreground sm:w-auto"
+        disabled={isSubmitting}
+        className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-6 py-3.5 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-65 sm:w-auto"
       >
-        <Send className="h-4 w-4" aria-hidden />
-        Online submission coming soon
+        {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden /> : <Send className="h-4 w-4" aria-hidden />}
+        {isSubmitting ? 'Sending inquiry…' : 'Send Inquiry'}
       </button>
     </form>
   )

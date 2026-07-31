@@ -61,7 +61,7 @@ export default function ContactPage() {
               <div className="rounded-2xl border border-border bg-card/70 p-6 backdrop-blur-sm md:p-9">
                 <h2 className="font-serif text-2xl font-bold text-foreground">Send an Inquiry</h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  Share your project requirements directly with the company by email or phone.
+                  Submit your project requirements here, or contact the company directly by email or phone.
                 </p>
                 <div className="mt-7">
                   <ContactForm />
