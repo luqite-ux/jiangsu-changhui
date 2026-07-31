@@ -7,7 +7,11 @@ import { submitInquiry, type InquiryInput } from '@/lib/inquiries'
 const inputClass =
   'w-full rounded-md border border-input bg-background px-4 py-3 text-sm text-foreground shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/25'
 
-export function ContactForm() {
+type ContactFormProps = {
+  initialProduct?: string
+}
+
+export function ContactForm({ initialProduct }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [result, setResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
@@ -26,6 +30,7 @@ export function ContactForm() {
       country: String(data.get('country') || ''),
       product: String(data.get('product') || ''),
       attachmentName: attachment instanceof File && attachment.size > 0 ? attachment.name : '',
+      privacyAccepted: data.get('privacy') === 'accepted',
       message: String(data.get('message') || ''),
     }
 
@@ -92,16 +97,20 @@ export function ContactForm() {
           <label htmlFor="inquiry-product" className="mb-1.5 block text-sm font-medium text-foreground">
             Product of interest
           </label>
-          <select id="inquiry-product" name="product" defaultValue="" className={inputClass}>
-            <option value="" disabled>Select a category</option>
-            <option>High Voltage Switchgear</option>
-            <option>Low Voltage Switchgear</option>
-            <option>Distribution Boxes</option>
-            <option>Box-Type Substations</option>
-            <option>Busway Systems</option>
-            <option>Cable Tray Systems</option>
-            <option>Other / Custom</option>
-          </select>
+          {initialProduct ? (
+            <input id="inquiry-product" name="product" value={initialProduct} readOnly className={inputClass} />
+          ) : (
+            <select id="inquiry-product" name="product" defaultValue="" className={inputClass}>
+              <option value="" disabled>Select a category</option>
+              <option>High Voltage Switchgear</option>
+              <option>Low Voltage Switchgear</option>
+              <option>Distribution Boxes</option>
+              <option>Box-Type Substations</option>
+              <option>Busway Systems</option>
+              <option>Cable Tray Systems</option>
+              <option>Other / Custom</option>
+            </select>
+          )}
         </div>
 
         <div className="sm:col-span-2">
@@ -146,6 +155,7 @@ export function ContactForm() {
           <input
             name="privacy"
             type="checkbox"
+            value="accepted"
             required
             className="mt-1 h-4 w-4 shrink-0 accent-primary"
           />

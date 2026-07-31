@@ -3,7 +3,8 @@ import { MapPin, Phone, Mail, Building2, Factory } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { ContactForm } from '@/components/contact-form'
-import { company } from '@/lib/site-data'
+import { resolveInitialProduct } from '@/lib/inquiries'
+import { company, products } from '@/lib/site-data'
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -24,7 +25,14 @@ const contactCards = [
   },
 ]
 
-export default function ContactPage() {
+type ContactPageProps = {
+  searchParams: Promise<{ product?: string | string[] }>
+}
+
+export default async function ContactPage({ searchParams }: ContactPageProps) {
+  const { product } = await searchParams
+  const initialProduct = resolveInitialProduct(product, products.map(({ name }) => name))
+
   return (
     <>
       <PageHero
@@ -64,7 +72,7 @@ export default function ContactPage() {
                   Submit your project requirements here, or contact the company directly by email or phone.
                 </p>
                 <div className="mt-7">
-                  <ContactForm />
+                  <ContactForm initialProduct={initialProduct} />
                 </div>
               </div>
             </Reveal>
