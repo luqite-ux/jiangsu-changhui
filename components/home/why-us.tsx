@@ -17,7 +17,7 @@ const features = [
   },
   {
     icon: Layers,
-    title: 'Full Customisation',
+    title: 'Full Customization',
     desc: 'OEM &amp; ODM support — every product built to your drawings, dimensions, materials and applicable standards.',
   },
   {
@@ -55,8 +55,8 @@ export function WhyUs() {
         <SectionHeading
           invert
           eyebrow="Why Chang Hui"
-          title="An Experienced Manufacturing Partner"
-          description="We combine large-format in-house production, rigorous quality control and responsive engineering support to deliver dependable electrical distribution equipment."
+          title="A Manufacturing Partner for Custom Electrical Equipment"
+          description="We combine documented in-house production capabilities, quality-control processes and engineering support for made-to-order electrical distribution equipment."
         />
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

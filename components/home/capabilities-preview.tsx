@@ -46,8 +46,8 @@ export function CapabilitiesPreview() {
           </h2>
           <p className="mt-4 text-pretty text-lg leading-relaxed text-muted-foreground">
             Our vertically integrated workshops control every stage of production — sheet metal,
-            busbar processing, surface treatment, assembly and electrical testing — under one
-            a quality approach described in the supplied company materials.
+            busbar processing, surface treatment, assembly and electrical testing — following
+            the quality approach described in the supplied company materials.
           </p>
           <ul className="mt-6 space-y-3" role="list">
             {points.map((p) => (

@@ -66,6 +66,14 @@ test('visible source excludes unsupported claims and all preview placeholders', 
     [/frontend demonstration|news-content-pending|placeholder for future news/i, 'preview placeholder'],
     [/direct access to major export ports/i, 'unsupported logistics claim'],
     [/under one the quality system/i, 'broken capability sentence'],
+    [/under one\s+a quality approach/i, 'broken capability sentence'],
+    [/customer inspection welcome\./i, 'incomplete inspection sentence'],
+    [/customers and third-party inspectors are welcome/i, 'unsupported third-party inspection claim'],
+    [/full customisation/i, 'mixed British and American spelling'],
+    [/Jiangsu Changhui Electric Co\., Ltd\.\./i, 'duplicate punctuation after legal name'],
+    [/micro-computer relay/i, 'nonstandard microcomputer spelling'],
+    [/\b150kV\b|\b60μm\b/, 'missing space between a value and its SI unit'],
+    [/\b(?:catalogue|metres|customisation)\b/i, 'mixed British and American spelling'],
   ]
 
   for (const [pattern, label] of forbidden) {
@@ -74,6 +82,43 @@ test('visible source excludes unsupported claims and all preview placeholders', 
 
   const contactForm = await readProjectFile('components/contact-form.tsx')
   assert.doesNotMatch(contactForm, /mailto:|window\.location|setSubmitted\(true\)|alert\(|console\.log|setTimeout/, 'the contact UI must not simulate success')
+})
+
+test('public English uses clear procurement terminology and consistent product names', async () => {
+  const { faqs, products, stats } = await loadSiteData()
+
+  assert.deepEqual(stats.find(({ label }) => label === 'Minimum Order Quantity'), {
+    value: '1',
+    suffix: ' Unit',
+    label: 'Minimum Order Quantity',
+  })
+  assert.deepEqual(stats.find(({ label }) => label === 'Warranty Period'), {
+    value: '2',
+    suffix: ' Years',
+    label: 'Warranty Period',
+  })
+
+  const names = new Map(products.map(({ slug, name }) => [slug, name]))
+  assert.equal(names.get('hxgn-12'), 'HXGN□-12 AC Metal-Enclosed Ring Main Unit')
+  assert.equal(names.get('box-substation'), 'Box-Type Substation Series (European-Type)')
+  assert.equal(names.get('xqj-c-trough'), 'XQJ-C Trough-Type Cable Tray')
+  assert.equal(names.get('xqj-p-tray'), 'XQJ-P Tray-Type Cable Tray')
+  assert.equal(names.get('xqj-t-ladder'), 'XQJ-T Ladder-Type Cable Tray')
+
+  const faqCorpus = JSON.stringify(faqs)
+  assert.doesNotMatch(faqCorpus, /third-party inspection/i)
+  assert.match(faqCorpus, /customer inspection/i)
+})
+
+test('the production English correction script is locked to Jiangsu Changhui', async () => {
+  const module = await import('../scripts/update-jiangsu-changhui-product-english.mjs')
+  const row = { tenant_id: module.TENANT_ID, slug: 'xqj-p-tray' }
+
+  assert.deepEqual(module.buildNamePatch(row), { name: 'XQJ-P Tray-Type Cable Tray' })
+  assert.throws(
+    () => module.buildNamePatch({ ...row, tenant_id: '00000000-0000-0000-0000-000000000000' }),
+    /outside tenant/,
+  )
 })
 
 test('inquiry form preserves all required lead fields for real submission', async () => {

@@ -33,7 +33,7 @@ export function ProductsPageClient({ products, categories }: Props) {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         {categories.length === 0 ? (
           <div className="rounded-2xl border border-border bg-card p-10 text-center">
-            <h2 className="font-display text-xl font-bold text-primary">Product catalogue is being updated</h2>
+            <h2 className="font-display text-xl font-bold text-primary">Product catalog is being updated</h2>
             <p className="mt-2 text-sm text-muted-foreground">Please contact us for the current product range.</p>
           </div>
         ) : (

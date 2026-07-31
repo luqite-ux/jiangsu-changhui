@@ -37,8 +37,8 @@ const values = [
 
 const commitments = [
   'A global outlook with an open, collaborative approach to every project.',
-  'A first-class R&D team delivering forward-looking, individualized designs.',
-  'High-caliber engineers providing professional, intelligent solutions.',
+  'An R&D team that develops project-specific designs from confirmed requirements.',
+  'Engineering personnel who provide technical solutions for each project.',
   'Modern management and equipment for efficient, high-quality products.',
   'A nationwide network delivering timely, attentive service.',
 ]
@@ -49,7 +49,7 @@ export default function AboutPage() {
       <PageHero
         breadcrumb="About"
         eyebrow="Who We Are"
-        title="Engineering Trusted Power Distribution Since Day One"
+        title="Electrical Distribution Equipment Since 2019"
         description="Jiangsu Changhui Electric Co., Ltd. is an integrated R&D, design, manufacturing and sales enterprise, dedicated to building the internationally recognized electrical brand 'Chang Hui'."
       />
 

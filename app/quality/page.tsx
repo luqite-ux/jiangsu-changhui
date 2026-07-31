@@ -33,7 +33,7 @@ const tiers = [
     icon: FlaskConical,
     step: '03',
     title: 'Factory Acceptance Testing',
-    desc: 'Every unit undergoes insulation resistance, circuit continuity, protection relay verification and dielectric withstand tests before release. Customers and third-party inspectors are welcome.',
+    desc: 'Every unit undergoes insulation resistance, circuit continuity, protection relay verification and dielectric withstand tests before release. Customer inspection can be arranged.',
   },
   {
     icon: PackageCheck,
@@ -53,8 +53,8 @@ const qualityStatements = [
 const testCapabilities = [
   'Power-frequency withstand voltage test (up to 150 kV)',
   'Transformer ratio, capacity and load testing',
-  'Micro-computer relay protection testing',
-  'DC high-voltage generator and leakage current test',
+  'Microcomputer relay protection testing',
+  'DC high-voltage and leakage-current testing',
   'Insulation and DC resistance measurement',
   'Loop resistance and contact resistance testing',
   'Residual current and dielectric strength testing',
@@ -75,7 +75,7 @@ export default function QualityPage() {
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Quality Control"
-          title="A Three-Tier Quality System"
+          title="Quality Control from Incoming Materials to Traceability"
           description="This summary reflects the quality-control approach described in the supplied company materials."
         />
 
@@ -139,7 +139,7 @@ export default function QualityPage() {
               align="left"
               eyebrow="Test Laboratory"
               title="Comprehensive In-House Electrical Testing"
-              description="Our fully equipped on-site test lab verifies performance and safety before any product leaves the factory."
+              description="The listed on-site test equipment supports performance and safety checks before products leave the factory."
             />
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {testCapabilities.map((t) => (
@@ -171,7 +171,7 @@ export default function QualityPage() {
               Request Inspection or Test Reports
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-white/80 text-pretty">
-              Customer inspection before shipment is always welcome. Contact us to arrange or to request test records for any order.
+              Customer inspection before shipment can be arranged. Contact us to discuss an inspection or request available test records for an order.
             </p>
             <Link
               href="/contact"

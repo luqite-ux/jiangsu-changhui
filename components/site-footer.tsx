@@ -99,7 +99,7 @@ export function SiteFooter() {
 
         <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-white/25 pt-6 text-xs text-primary-foreground/75 sm:flex-row">
           <p>
-            &copy; {new Date().getFullYear()} {company.legalName}. All rights reserved.
+            &copy; {new Date().getFullYear()} {company.legalName} All rights reserved.
           </p>
         </div>
       </div>

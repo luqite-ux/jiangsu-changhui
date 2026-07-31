@@ -42,7 +42,7 @@ const process = [
     icon: SprayCan,
     step: '03',
     title: 'Surface Treatment',
-    desc: 'Pickling & phosphating followed by epoxy powder electrostatic coating ≥60μm, adhesion grade 1.',
+    desc: 'Pickling and phosphating followed by epoxy powder electrostatic coating with a film thickness of at least 60 μm and grade 1 adhesion.',
   },
   {
     icon: Boxes,
@@ -66,21 +66,21 @@ const process = [
 
 const equipment = [
   { name: 'CNC Turret Punch Press', spec: 'Murata M-2044EZ / M-2048LT', use: 'Precision multi-hole punching' },
-  { name: 'CNC Press Brakes', spec: 'AKAS 5-axis hydraulic', use: 'Sheet metal bending' },
-  { name: 'Fiber Laser Cutting', spec: 'JR3015F 1500W', use: 'High-precision plate cutting' },
+  { name: 'CNC Press Brakes', spec: '510032 / 504022 / 520032', use: 'Sheet-metal bending' },
+  { name: 'Fiber Laser Cutting Machine', spec: 'JR3015F series, 1500 W', use: 'Sheet-metal cutting' },
   { name: 'Busbar Processing Center', spec: 'BM303-S-3-8 PII', use: 'Copper busbar shear/punch/bend' },
   { name: 'Electrostatic Powder Coating', spec: 'WL-2020-KST', use: 'Durable surface finishing' },
   { name: 'Laser Marking Machine', spec: 'BGR-T30W', use: 'Permanent nameplate marking' },
 ]
 
 const testing = [
-  'Power-frequency withstand voltage test (up to 150kV)',
-  'Transformer ratio, capacity & load testing',
-  'Micro-computer relay protection testing',
-  'DC high-voltage generator & leakage current test',
-  'Insulation & DC resistance measurement',
-  'Loop resistance & contact resistance testing',
-  'Residual current & dielectric strength testing',
+  'Power-frequency withstand voltage testing (up to 150 kV)',
+  'Transformer ratio, capacity and load testing',
+  'Microcomputer relay protection testing',
+  'DC high-voltage and leakage-current testing',
+  'Insulation and DC resistance measurement',
+  'Loop and contact resistance testing',
+  'Residual-current and dielectric-strength testing',
   'HV/LV switchgear energization test bench',
 ]
 
@@ -186,7 +186,7 @@ export default function CapabilitiesPage() {
               align="left"
               eyebrow="Test Laboratory"
               title="Comprehensive In-House Electrical Testing"
-              description="A fully equipped test lab lets us verify performance and safety before any product leaves the factory."
+              description="The listed in-house test equipment supports electrical performance and safety checks before products leave the factory."
             />
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {testing.map((t) => (

@@ -42,8 +42,8 @@ export function IndustriesSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Industries Served"
-          title="Equipment for Every Application"
-          description="Chang Hui Electric products are deployed across a wide range of industries — from heavy industry and utilities to healthcare, residential and transportation infrastructure."
+          title="Electrical Equipment Across Key Sectors"
+          description="Customer materials list applications across industry, utilities, healthcare, buildings, research, logistics and transportation."
         />
 
         <Reveal>
