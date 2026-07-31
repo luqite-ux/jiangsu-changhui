@@ -1,7 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { SESSION_COOKIE, TENANT_COOKIE } from '@/lib/admin-session'
+import { createAdminClient } from '@/lib/supabase/server'
 
-function logout(request: NextRequest) {
+async function logout(request: NextRequest) {
+  const token = request.cookies.get(SESSION_COOKIE)?.value
+  if (token) {
+    try {
+      await createAdminClient().from('admin_user_sessions').delete().eq('token', token)
+    } catch {
+      // Cookie revocation must still complete if the session row is already gone.
+    }
+  }
+
   const response = NextResponse.redirect(new URL('/admin/login', request.url), 303)
   const clearCookie = {
     httpOnly: true,

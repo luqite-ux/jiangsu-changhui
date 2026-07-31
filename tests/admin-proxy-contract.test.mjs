@@ -58,8 +58,7 @@ test('login Route Handler scopes the account, creates a session, and returns bot
 test('middleware protects private admin paths while leaving login and logout local', async () => {
   const source = await readProjectFile('middleware.ts')
 
-  assert.match(source, /pathname\.startsWith\(['"]\/admin\/login['"]\)/)
-  assert.match(source, /pathname\.startsWith\(['"]\/admin\/logout['"]\)/)
+  assert.match(source, /isPublicAdminPath\(pathname\)/)
   assert.match(source, /request\.cookies\.get\(SESSION_COOKIE\)/)
   assert.match(source, /url\.pathname\s*=\s*['"]\/admin\/login['"]/)
   assert.match(source, /reason['"],\s*['"]unauthorized['"]/)

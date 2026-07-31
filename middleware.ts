@@ -1,14 +1,14 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { SESSION_COOKIE } from '@/lib/admin-session'
+import { isPublicAdminPath } from '@/lib/admin-paths'
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const isPublicAdminPath =
-    pathname.startsWith('/admin/login') || pathname.startsWith('/admin/logout')
+  const isPublicAdminPathname = isPublicAdminPath(pathname)
 
   if (
     pathname.startsWith('/admin') &&
-    !isPublicAdminPath &&
+    !isPublicAdminPathname &&
     !request.cookies.get(SESSION_COOKIE)?.value
   ) {
     const url = request.nextUrl.clone()
