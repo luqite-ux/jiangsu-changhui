@@ -83,11 +83,22 @@ test('header displays a transparent symbol beside a live horizontal wordmark', a
     .ensureAlpha()
     .stats()
     .catch(() => null)
+  const { data: symbolPixels } = await sharp(resolve(repositoryRoot, 'public/logo-symbol.png'))
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  let visibleDarkPixels = 0
+
+  for (let index = 0; index < symbolPixels.length; index += 4) {
+    const [red, green, blue, alpha] = symbolPixels.subarray(index, index + 4)
+    if (alpha >= 32 && red < 80 && green < 80 && blue < 80) visibleDarkPixels += 1
+  }
 
   assert.ok(symbol, 'public/logo-symbol.png must be derived from the supplied logo')
   assert.equal(symbol.width, symbol.height)
   assert.equal(symbol.hasAlpha, true)
   assert.ok(alphaStats?.channels[3].min === 0, 'the symbol background must be transparent')
+  assert.equal(visibleDarkPixels, 0, 'the transparent symbol must not contain a dark outline')
   assert.match(header, /className="flex shrink-0 items-center gap-2[^"']*"/)
   assert.match(header, /src="\/logo-symbol\.png"/)
   assert.match(header, /className="h-14 w-14[^"']*lg:h-16 lg:w-16"/)
