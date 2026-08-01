@@ -45,7 +45,7 @@ const tiers = [
 
 const qualityStatements = [
   { label: 'Quality System', value: 'Company materials state that an ISO 9001 quality management system is in place' },
-  { label: 'Warranty', value: '2-year free warranty from delivery' },
+  { label: 'Technical Support', value: 'Scope and commercial terms confirmed in the order documentation' },
   { label: 'After-sales Response', value: 'Within 1 hour for technical support requests' },
   { label: 'Type Testing', value: 'Company materials state that type testing has been completed; report files were not supplied for publication' },
 ]

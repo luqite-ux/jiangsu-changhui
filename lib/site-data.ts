@@ -21,7 +21,7 @@ export const stats = [
   { value: '42,000', suffix: ' m²', label: 'Total Site Area' },
   { value: '25,000', suffix: ' m²', label: 'Building Area' },
   { value: '1', suffix: ' Unit', label: 'Minimum Order Quantity' },
-  { value: '2', suffix: ' Years', label: 'Warranty Period' },
+  { value: '27', suffix: ' Products', label: 'Customer-Supplied Product List' },
 ]
 
 export const nav = [
@@ -245,10 +245,10 @@ export const faqs = [
     { q: 'What is the production lead time after order confirmation?', a: 'Typical production lead time is 15–45 days and varies by product and quantity. The supplied company materials give an example of approximately 50 days for an order of 100 units.' },
     { q: 'Do you support expedited / rush production?', a: 'Yes, expedited production can be arranged. We also provide production progress updates during manufacturing.' },
   ]},
-  { category: 'Quality Control & Warranty', items: [
+  { category: 'Quality Control & Technical Support', items: [
     { q: 'What quality management system do you operate?', a: 'We have established and operate an ISO 9001 Quality Management System covering raw-material inspection, in-process stop-point inspections, factory testing, packaging and on-site commissioning support.' },
     { q: 'Do you support customer inspection before shipment?', a: 'Yes. Customers may inspect goods before shipment. We can also provide factory inspection reports and test records.' },
-    { q: 'What is the warranty period?', a: 'We provide a 2-year free warranty from delivery, together with lifetime after-sales technical support.' },
+    { q: 'What post-delivery technical support is available?', a: 'Technical support is available after delivery. The applicable scope and commercial terms are confirmed in the order documentation.' },
     { q: 'Are product quality records traceable?', a: 'Yes. Each product carries a serial number and associated quality records for full traceability through our production process.' },
   ]},
   { category: 'Technical Service & After-Sales', items: [
@@ -282,7 +282,7 @@ For a quotation, customers should provide available drawings, quantities and pro
 
 The supplied materials describe incoming-material, in-process and factory inspection activities. Order-specific records and documents should be confirmed for the relevant product and project.
 
-The stated free-warranty period is two years. The exact scope and terms should be confirmed in the order documentation.` },
+Post-delivery technical support and applicable commercial terms should be confirmed in the order documentation.` },
 ]
 
 export const industries = [
@@ -302,5 +302,5 @@ export const processSteps = [
   { step: '02', title: 'Design & Engineering', description: 'Our engineering team prepares manufacturing drawings and a bill of materials per your specification.' },
   { step: '03', title: 'Production & Manufacturing', description: 'CNC sheet metal processing, assembly, wiring and busbar installation with in-process inspection at defined stop points.' },
   { step: '04', title: 'Factory Testing & Inspection', description: 'Each unit is tested for insulation resistance, continuity, protection relay settings and dielectric strength. Customer inspection can be arranged.' },
-  { step: '05', title: 'Delivery & Technical Support', description: 'Careful packaging, documentation, test records and operation manuals shipped with every order. 2-year warranty included.' },
+  { step: '05', title: 'Delivery & Technical Support', description: 'Careful packaging, documentation, test records and operation manuals are shipped with every order. Post-delivery support terms are confirmed in the order documentation.' },
 ]

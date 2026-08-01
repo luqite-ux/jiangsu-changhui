@@ -10,7 +10,7 @@ const HERO_VIDEO_START_SECONDS = 4
 const badges = [
   { icon: ShieldCheck, label: 'Quality system stated in company materials' },
   { icon: Package, label: 'MOQ 1 Unit' },
-  { icon: Clock, label: '2-Year Warranty' },
+  { icon: Clock, label: 'Factory Quality Checks' },
 ]
 
 export function Hero() {

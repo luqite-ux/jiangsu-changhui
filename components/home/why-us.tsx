@@ -32,8 +32,8 @@ const features = [
   },
   {
     icon: Headset,
-    title: '2-Year Warranty',
-    desc: 'Two-year free warranty on all equipment. Technical after-sales service continues beyond the warranty period.',
+    title: 'Technical Support',
+    desc: 'Technical support is available for installation, commissioning and maintenance; scope and commercial terms are confirmed in the order documentation.',
   },
 ]
 

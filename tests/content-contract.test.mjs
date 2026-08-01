@@ -92,10 +92,10 @@ test('public English uses clear procurement terminology and consistent product n
     suffix: ' Unit',
     label: 'Minimum Order Quantity',
   })
-  assert.deepEqual(stats.find(({ label }) => label === 'Warranty Period'), {
-    value: '2',
-    suffix: ' Years',
-    label: 'Warranty Period',
+  assert.deepEqual(stats.find(({ label }) => label === 'Customer-Supplied Product List'), {
+    value: '27',
+    suffix: ' Products',
+    label: 'Customer-Supplied Product List',
   })
 
   const names = new Map(products.map(({ slug, name }) => [slug, name]))
