@@ -34,21 +34,18 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:min-h-[88px] lg:gap-4 lg:px-8 lg:py-3">
-        <Link href="/" className="flex shrink-0 items-center" aria-label={company.name}>
-          <span
-            className={cn(
-              'relative flex items-center rounded-lg transition-colors',
-              'bg-transparent',
-            )}
-          >
-            <Image
-              src="/logo-header.png"
-              alt={`${company.name} logo`}
-              width={340}
-              height={306}
-              className="h-[52px] w-auto object-contain lg:h-16"
-              priority
-            />
+        <Link href="/" className="flex shrink-0 items-center gap-2.5 sm:gap-3" aria-label={company.name}>
+          <Image
+            src="/logo-symbol.png"
+            alt=""
+            width={192}
+            height={192}
+            className="h-14 w-14 shrink-0 object-contain lg:h-16 lg:w-16"
+            priority
+          />
+          <span className="flex flex-col font-serif text-[15px] font-bold leading-[0.88] tracking-[0.025em] text-primary sm:text-base lg:text-lg">
+            <span>CHANG HUI</span>
+            <span>ELECTRIC</span>
           </span>
         </Link>
 

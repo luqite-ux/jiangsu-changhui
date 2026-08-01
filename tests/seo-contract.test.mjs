@@ -195,5 +195,7 @@ test('public route components keep one visible h1 source and meaningful image al
 
   const layout = await readProjectFile('app/layout.tsx')
   assert.match(layout, /icons:/, 'the root metadata must publish favicon declarations')
-  assert.match(await readProjectFile('components/site-header.tsx'), /alt=\{`\$\{company\.name\} logo`\}/)
+  const header = await readProjectFile('components/site-header.tsx')
+  assert.match(header, /aria-label=\{company\.name\}/)
+  assert.match(header, /<Image[\s\S]*?alt=""[\s\S]*?<span>CHANG HUI<\/span>[\s\S]*?<span>ELECTRIC<\/span>/)
 })
