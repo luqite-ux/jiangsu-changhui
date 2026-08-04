@@ -61,6 +61,21 @@ test('source decisions enforce the approved authenticity-first scope', async () 
   assert.equal(Object.keys(sourceById).length, 52)
 })
 
+test('final review publishes exactly 38 restored images and records every rejection', async () => {
+  const { publishableSources, finalRejectedSources, sourceById } = await loadManifest()
+
+  assert.equal(publishableSources.length, 38)
+  assert.equal(finalRejectedSources.length, 14)
+  assert.ok(publishableSources.every(({ restoredFileName, reviewStatus }) =>
+    reviewStatus === 'publish' && restoredFileName?.endsWith('.png')))
+
+  assert.equal(sourceById['busway-tap-box-open'].reviewStatus, 'reject')
+  assert.equal(sourceById['busway-tap-box-open'].reviewReason, 'third-party-brand-visible-after-restoration')
+  assert.equal(sourceById['advertising-composite-one'].reviewStatus, 'reject')
+  assert.equal(sourceById['advertising-composite-two'].reviewStatus, 'publish')
+  assert.ok(finalRejectedSources.every(({ reviewReason }) => reviewReason))
+})
+
 test('the inventory script rejects unsafe or incomplete archive entry lists', async () => {
   await access(inventoryUrl)
   const { validateArchiveEntryPaths } = await import(`${inventoryUrl.href}?test=${Date.now()}`)
