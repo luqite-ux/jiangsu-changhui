@@ -62,7 +62,7 @@ test('source decisions enforce the approved authenticity-first scope', async () 
 })
 
 test('final review publishes exactly 38 restored images and records every rejection', async () => {
-  const { publishableSources, finalRejectedSources, sourceById } = await loadManifest()
+  const { publishableSources, finalRejectedSources, sourceById, customerRefreshPublicUrl } = await loadManifest()
 
   assert.equal(publishableSources.length, 38)
   assert.equal(finalRejectedSources.length, 14)
@@ -74,6 +74,8 @@ test('final review publishes exactly 38 restored images and records every reject
   assert.equal(sourceById['advertising-composite-one'].reviewStatus, 'reject')
   assert.equal(sourceById['advertising-composite-two'].reviewStatus, 'publish')
   assert.ok(finalRejectedSources.every(({ reviewReason }) => reviewReason))
+  assert.match(customerRefreshPublicUrl('switchgear-gck'), /customer-product-refresh-2026-08\/switchgear-gck\.webp$/)
+  assert.throws(() => customerRefreshPublicUrl('busway-tap-box-open'), /not approved/i)
 })
 
 test('the inventory script rejects unsafe or incomplete archive entry lists', async () => {

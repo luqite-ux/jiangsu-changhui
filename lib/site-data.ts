@@ -1,5 +1,6 @@
 // CHANG HUI ELECTRIC — Central data source
 // All facts sourced from confirmed company materials only.
+import { categoryImageMappingBySlug, productImageMappingBySlug } from './product-image-remap.mjs'
 
 export const company = {
   name: 'CHANG HUI ELECTRIC',
@@ -158,7 +159,7 @@ export const clientImages = {
   enclosureShells:    photos.enclosureShells,
 }
 
-export const products: Product[] = [
+const baseProducts: Product[] = [
   // HV Switchgear (3)
   { slug: 'kyn61-40-5', name: 'KYN61-40.5 Metal-Clad Withdrawable AC Switchgear', category: 'hv-switchgear', categoryName: 'High Voltage Switchgear', image: '/products/hv-switchgear.png', images: ['/products/hv-switchgear.png'], description: 'This model is included in the customer-supplied product list. Configuration, dimensions and technical performance are confirmed for each order from approved drawings and project requirements.', customNote: 'Please provide drawings, quantities and project requirements for engineering review and quotation.', applications: ['Made to drawings', 'Project-specific configuration'], relatedSlugs: ['kyn28-12', 'hxgn-12'] },
   { slug: 'kyn28-12', name: 'KYN28-12 Metal-Clad Withdrawable AC Switchgear', category: 'hv-switchgear', categoryName: 'High Voltage Switchgear', image: '/products/hv-switchgear.png', images: ['/products/hv-switchgear.png'], description: 'This model is included in the customer-supplied product list. Configuration, dimensions and technical performance are confirmed for each order from approved drawings and project requirements.', customNote: 'Please provide drawings, quantities and project requirements for engineering review and quotation.', applications: ['Made to drawings', 'Project-specific configuration'], relatedSlugs: ['kyn61-40-5', 'hxgn-12'] },
@@ -194,6 +195,17 @@ export const products: Product[] = [
   { slug: 'gqqj-high-strength', name: 'GQQJ High-Strength Energy-Saving Cable Tray', category: 'cable-tray', categoryName: 'Cable Tray Systems', image: '/products/cable-tray.png', images: ['/products/cable-tray.png'], description: 'This model is included in the customer-supplied product list. Configuration, dimensions and technical performance are confirmed for each order from approved drawings and project requirements.', customNote: 'Please provide drawings, quantities and project requirements for engineering review and quotation.', applications: ['Made to drawings', 'Project-specific configuration'], relatedSlugs: ['xqj-p-light', 'xqj-t-ladder', 'xqj-p-tray'] },
 ]
 
+export const products: Product[] = baseProducts.map((product) => {
+  const mapping = productImageMappingBySlug[product.slug]
+  return mapping ? {
+    ...product,
+    image: mapping.imageUrl,
+    images: mapping.images,
+    imageAlt: mapping.imageAlt,
+    imageContext: mapping.imageContext,
+  } : product
+})
+
 function buildCategories(): ProductCategory[] {
   const defs = [
         { slug: 'hv-switchgear', name: 'High Voltage Switchgear', image: '/products/hv-switchgear.png', short: 'Customer-listed high-voltage switchgear models; final specifications are confirmed from project drawings.', productSlugs: ['kyn61-40-5', 'kyn28-12', 'hxgn-12'] },
@@ -205,6 +217,9 @@ function buildCategories(): ProductCategory[] {
   ]
   return defs.map((def) => ({
     ...def,
+    image: categoryImageMappingBySlug[def.slug]?.imageUrl ?? def.image,
+    imageAlt: categoryImageMappingBySlug[def.slug]?.imageAlt,
+    imageContext: categoryImageMappingBySlug[def.slug]?.imageContext,
     products: def.productSlugs
       .map((s) => products.find((p) => p.slug === s))
       .filter((p): p is Product => p !== undefined),

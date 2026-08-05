@@ -1,39 +1,15 @@
-import {
-  Factory,
-  Flame,
-  Zap,
-  Building2,
-  Heart,
-  Home,
-  FlaskConical,
-  Warehouse,
-  Train,
-} from 'lucide-react'
+import Image from 'next/image'
 import { SectionHeading } from '@/components/section-heading'
 import { Reveal } from '@/components/reveal'
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Factory,
-  Flame,
-  Zap,
-  Building2,
-  Heart,
-  Home,
-  FlaskConical,
-  Warehouse,
-  Train,
-}
+import { customerRefreshPublicUrl } from '@/lib/customer-product-image-refresh.mjs'
 
 const industries = [
-  { icon: 'Factory', label: 'Industrial & Mining' },
-  { icon: 'Flame', label: 'Petrochemical' },
-  { icon: 'Zap', label: 'Power & Water Utilities' },
-  { icon: 'Building2', label: 'Infrastructure' },
-  { icon: 'Heart', label: 'Healthcare' },
-  { icon: 'Home', label: 'Residential & Commercial' },
-  { icon: 'FlaskConical', label: 'Research & Science' },
-  { icon: 'Warehouse', label: 'Warehousing & Logistics' },
-  { icon: 'Train', label: 'Transportation' },
+  { label: 'Solar Power', image: customerRefreshPublicUrl('industry-solar') },
+  { label: 'Power Grid & Utilities', image: customerRefreshPublicUrl('industry-grid') },
+  { label: 'Commercial Complexes', image: customerRefreshPublicUrl('industry-mixed-use') },
+  { label: 'Wind Power', image: customerRefreshPublicUrl('industry-wind') },
+  { label: 'Rail Transportation', image: customerRefreshPublicUrl('industry-high-speed-rail') },
+  { label: 'Transmission Infrastructure', image: customerRefreshPublicUrl('advertising-composite-two') },
 ]
 
 export function IndustriesSection() {
@@ -48,22 +24,26 @@ export function IndustriesSection() {
 
         <Reveal>
           <ul
-            className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+            className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
             role="list"
           >
             {industries.map((ind) => {
-              const Icon = iconMap[ind.icon]
               return (
                 <li
                   key={ind.label}
-                  className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-shadow hover:shadow-md"
+                  className="group relative isolate min-h-56 overflow-hidden rounded-xl border border-white/20 bg-slate-900 text-white shadow-sm"
                 >
-                  {Icon && (
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <Icon className="h-6 w-6" aria-hidden />
-                    </span>
-                  )}
-                  <span className="text-sm font-medium text-foreground">{ind.label}</span>
+                  <Image
+                    src={ind.image}
+                    alt={`${ind.label} application context`}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                  <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/25 to-transparent" aria-hidden />
+                  <span className="relative z-10 flex min-h-56 items-end p-6 text-lg font-semibold text-white">
+                    {ind.label}
+                  </span>
                 </li>
               )
             })}
