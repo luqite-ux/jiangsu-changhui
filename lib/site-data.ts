@@ -15,7 +15,7 @@ export const company = {
   factoryAddress: 'No. 28, Yaoqiao Road, Yaoqiao Town, Zhenjiang New Area, Jiangsu, China',
   qualitySystem: 'The company materials state that an ISO 9001 quality management system is in place.',
   phones: ['+86-153-5862-3101', '+86-511-8888-1633'],
-  emails: ['jschanghui@163.com', 'jschanghui@126.com'],
+  emails: ['info@changhuielectrical.com'],
 }
 
 export const stats = [
