@@ -1,6 +1,3 @@
-import { getSupabaseClient, getTenantId } from '@/lib/supabase'
-import type { SupabaseClient } from '@supabase/supabase-js'
-
 export type InquiryInput = {
   name: string
   email: string
@@ -11,6 +8,12 @@ export type InquiryInput = {
   attachmentName?: string
   privacyAccepted: boolean
   message: string
+}
+
+export type InquirySubmission = InquiryInput & {
+  captchaScope: string
+  captchaToken: string
+  captchaAnswer: string
 }
 
 export function resolveInitialProduct(
@@ -58,41 +61,22 @@ export function buildInquiryPayload(input: InquiryInput, tenantId: string) {
   }
 }
 
-async function insertInquiry(
-  input: InquiryInput,
-  client: Pick<SupabaseClient, 'from'>,
-  tenantId: string,
+export async function submitInquiry(
+  input: InquirySubmission,
 ): Promise<{ ok: true } | { ok: false; message: string }> {
-  const { error } = await client.from('inquiries').insert(buildInquiryPayload(input, tenantId))
-  if (error) {
-    console.error('[inquiries] anonymous insert failed.', error.message)
+  const validation = validateInquiry(input)
+  if (!validation.ok) return validation
+  try {
+    const response = await fetch('/api/inquiry', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(input),
+    })
+    const result = await response.json().catch(() => ({})) as { error?: string }
+    return response.ok
+      ? { ok: true }
+      : { ok: false, message: result.error || 'We could not send your inquiry. Please try again or contact us by email.' }
+  } catch {
     return { ok: false, message: 'We could not send your inquiry. Please try again or contact us by email.' }
   }
-
-  return { ok: true }
-}
-
-export async function submitInquiryWithClient(
-  input: InquiryInput,
-  client: Pick<SupabaseClient, 'from'>,
-  tenantId: string,
-): Promise<{ ok: true } | { ok: false; message: string }> {
-  const validation = validateInquiry(input)
-  if (!validation.ok) return validation
-  return insertInquiry(input, client, tenantId)
-}
-
-export async function submitInquiry(
-  input: InquiryInput,
-): Promise<{ ok: true } | { ok: false; message: string }> {
-  const validation = validateInquiry(input)
-  if (!validation.ok) return validation
-
-  const client = getSupabaseClient()
-  const tenantId = getTenantId()
-  if (!client || !tenantId) {
-    return { ok: false, message: 'Online inquiry is temporarily unavailable. Please contact us by email or phone.' }
-  }
-
-  return insertInquiry(input, client, tenantId)
 }

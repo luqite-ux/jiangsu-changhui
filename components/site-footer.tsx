@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin } from 'lucide-react'
 import { company, nav, photos, productCategories } from '@/lib/site-data'
 
 export function SiteFooter() {
+  const footerCompanyName = company.legalName.replace(/[.\s]+$/, '')
   return (
     <footer className="relative mt-24 overflow-hidden bg-primary text-primary-foreground">
       <div className="pointer-events-none absolute inset-0 tech-grid opacity-30" aria-hidden />
@@ -12,15 +13,19 @@ export function SiteFooter() {
 
           {/* Brand */}
           <div className="lg:col-span-1">
-            <div className="inline-flex items-center rounded-lg bg-white px-3 py-2.5 shadow-sm">
+            <Link
+              href="/"
+              aria-label="Jiangsu Changhui Electric home"
+              className="inline-flex items-center rounded-lg bg-white px-3 py-2.5 shadow-sm"
+            >
               <Image
                 src={photos.logo}
                 alt={`${company.name} logo`}
-                width={150}
-                height={50}
-                className="h-11 w-auto object-contain"
+                width={190}
+                height={64}
+                className="h-14 w-auto max-w-full object-contain"
               />
-            </div>
+            </Link>
             <p className="mt-4 text-sm leading-relaxed text-primary-foreground/85">
               {company.legalName}
             </p>
@@ -99,7 +104,7 @@ export function SiteFooter() {
 
         <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-white/25 pt-6 text-xs text-primary-foreground/75 sm:flex-row">
           <p>
-            &copy; {new Date().getFullYear()} {company.legalName} All rights reserved.
+            &copy; {new Date().getFullYear()} {footerCompanyName}. All rights reserved.
           </p>
         </div>
       </div>

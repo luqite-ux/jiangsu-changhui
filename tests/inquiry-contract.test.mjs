@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { pathToFileURL } from 'node:url'
 import test from 'node:test'
 import ts from 'typescript'
 
@@ -19,11 +20,7 @@ async function loadInquiryHelpers() {
 }
 
 async function loadSiteData() {
-  const source = await readProjectFile('lib/site-data.ts')
-  const javascript = ts.transpileModule(source, {
-    compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-  }).outputText
-  return import(`data:text/javascript;base64,${Buffer.from(javascript).toString('base64')}`)
+  return import(pathToFileURL(resolve(repositoryRoot, 'lib/site-data.ts')).href)
 }
 
 test('inquiry validation rejects missing lead details and malformed email', async () => {
@@ -96,23 +93,19 @@ test('inquiry payload preserves every supported lead field without service crede
       'Country / Region: Singapore\nProduct: KYN28-12 Metal-Clad Withdrawable AC Switchgear\nAttachment filename: single-line.pdf\nPrivacy consent: accepted\n\nPlease quote 20 metres.',
     status: 'unread',
   })
-  assert.match(source, /from\(["']inquiries["']\)\.insert\(/)
+  const route = await readProjectFile('app/api/inquiry/route.ts')
+  assert.match(route, /from\(["']inquiries["']\)\.insert\(/)
+  assert.ok(route.indexOf('verifyCaptchaSubmission(') < route.search(/from\(["']inquiries["']\)\.insert\(/))
   assert.doesNotMatch(source, /SERVICE_ROLE|service.role/i)
 })
 
-test('inquiry insertion returns success and sends the complete payload through the injected client', async () => {
-  const { submitInquiryWithClient } = await loadInquiryHelpers()
-  let inserted
-  const client = {
-    from(table) {
-      assert.equal(table, 'inquiries')
-      return {
-        async insert(payload) {
-          inserted = payload
-          return { error: null }
-        },
-      }
-    },
+test('inquiry submission posts the complete lead and CAPTCHA to the server route', async () => {
+  const { submitInquiry } = await loadInquiryHelpers()
+  let request
+  const originalFetch = globalThis.fetch
+  globalThis.fetch = async (url, init) => {
+    request = { url, init }
+    return Response.json({ ok: true })
   }
   const input = {
     name: 'Ada Buyer',
@@ -124,44 +117,43 @@ test('inquiry insertion returns success and sends the complete payload through t
     attachmentName: 'single-line.pdf',
     privacyAccepted: true,
     message: 'Please quote 20 metres.',
+    captchaScope: 'captcha_test_scope_123456',
+    captchaToken: 'signed-token',
+    captchaAnswer: 'ABCD',
   }
 
-  assert.deepEqual(await submitInquiryWithClient(input, client, 'tenant-test'), { ok: true })
-  assert.equal(inserted.tenant_id, 'tenant-test')
-  assert.equal(inserted.subject, 'Website inquiry · KYN28-12 Metal-Clad Withdrawable AC Switchgear')
-  assert.match(inserted.message, /Attachment filename: single-line\.pdf/)
-  assert.match(inserted.message, /Privacy consent: accepted/)
+  try {
+    assert.deepEqual(await submitInquiry(input), { ok: true })
+  } finally {
+    globalThis.fetch = originalFetch
+  }
+  assert.equal(request.url, '/api/inquiry')
+  assert.deepEqual(JSON.parse(request.init.body), input)
 })
 
-test('inquiry insertion exposes a safe failure when the injected client rejects the row', async () => {
-  const { submitInquiryWithClient } = await loadInquiryHelpers()
-  const client = {
-    from() {
-      return { async insert() { return { error: { message: 'RLS denied' } } } }
-    },
-  }
-  const originalConsoleError = console.error
-  console.error = () => {}
-  let result
+test('inquiry submission exposes a safe server failure without client persistence', async () => {
+  const { submitInquiry } = await loadInquiryHelpers()
+  const originalFetch = globalThis.fetch
+  globalThis.fetch = async () => Response.json(
+    { error: 'We could not send your inquiry. Please try again or contact us by email.' },
+    { status: 502 },
+  )
   try {
-    result = await submitInquiryWithClient(
-      {
-        name: 'Ada Buyer',
-        email: 'ada@example.com',
-        privacyAccepted: true,
-        message: 'Please quote 20 metres.',
-      },
-      client,
-      'tenant-test',
-    )
+    assert.deepEqual(await submitInquiry({
+      name: 'Ada Buyer',
+      email: 'ada@example.com',
+      privacyAccepted: true,
+      message: 'Please quote 20 metres.',
+      captchaScope: 'captcha_test_scope_123456',
+      captchaToken: 'signed-token',
+      captchaAnswer: 'ABCD',
+    }), {
+      ok: false,
+      message: 'We could not send your inquiry. Please try again or contact us by email.',
+    })
   } finally {
-    console.error = originalConsoleError
+    globalThis.fetch = originalFetch
   }
-
-  assert.deepEqual(result, {
-    ok: false,
-    message: 'We could not send your inquiry. Please try again or contact us by email.',
-  })
 })
 
 test('contact page passes only a validated exact model into the visible form', async () => {

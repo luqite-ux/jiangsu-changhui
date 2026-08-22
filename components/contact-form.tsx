@@ -3,6 +3,7 @@
 import { type FormEvent, useState } from 'react'
 import { FileUp, LoaderCircle, Send } from 'lucide-react'
 import { submitInquiry, type InquiryInput } from '@/lib/inquiries'
+import { InquiryCaptchaField } from '@/components/inquiry-captcha-field'
 
 const inputClass =
   'w-full rounded-md border border-input bg-background px-4 py-3 text-sm text-foreground shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/25'
@@ -14,6 +15,7 @@ type ContactFormProps = {
 export function ContactForm({ initialProduct }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [result, setResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+  const [captchaRefreshKey, setCaptchaRefreshKey] = useState(0)
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -22,7 +24,7 @@ export function ContactForm({ initialProduct }: ContactFormProps) {
     const form = event.currentTarget
     const data = new FormData(form)
     const attachment = data.get('attachment')
-    const input: InquiryInput = {
+    const input: InquiryInput & { captchaScope: string; captchaToken: string; captchaAnswer: string } = {
       name: String(data.get('name') || ''),
       email: String(data.get('email') || ''),
       phone: String(data.get('phone') || ''),
@@ -32,6 +34,9 @@ export function ContactForm({ initialProduct }: ContactFormProps) {
       attachmentName: attachment instanceof File && attachment.size > 0 ? attachment.name : '',
       privacyAccepted: data.get('privacy') === 'accepted',
       message: String(data.get('message') || ''),
+      captchaScope: String(data.get('captchaScope') || ''),
+      captchaToken: String(data.get('captchaToken') || ''),
+      captchaAnswer: String(data.get('captchaAnswer') || ''),
     }
 
     setIsSubmitting(true)
@@ -40,11 +45,14 @@ export function ContactForm({ initialProduct }: ContactFormProps) {
       const response = await submitInquiry(input)
       if (response.ok) {
         form.reset()
+        setCaptchaRefreshKey((current) => current + 1)
         setResult({ type: 'success', message: 'Inquiry sent successfully. Thank you for contacting us.' })
       } else {
+        setCaptchaRefreshKey((current) => current + 1)
         setResult({ type: 'error', message: response.message })
       }
     } catch {
+      setCaptchaRefreshKey((current) => current + 1)
       setResult({ type: 'error', message: 'We could not send your inquiry. Please try again or contact us by email.' })
     } finally {
       setIsSubmitting(false)
@@ -161,6 +169,10 @@ export function ContactForm({ initialProduct }: ContactFormProps) {
           />
           <span>I consent to the use of these details to respond to this business inquiry.</span>
         </label>
+
+        <div className="sm:col-span-2">
+          <InquiryCaptchaField refreshKey={captchaRefreshKey} />
+        </div>
       </div>
 
       {result?.type === 'success' && (
