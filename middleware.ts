@@ -1,8 +1,10 @@
+import { NextResponse as ServiceGuardNextResponse, type NextRequest as ServiceGuardRequest } from 'next/server'
+import { isServiceGuardExcludedPath, isWebsiteServiceAvailable } from './lib/service-status'
 import { NextResponse, type NextRequest } from 'next/server'
 import { SESSION_COOKIE } from '@/lib/admin-session'
 import { isPublicAdminPath } from '@/lib/admin-paths'
 
-export function middleware(request: NextRequest) {
+function existingServiceExpiryIntegration(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isPublicAdminPathname = isPublicAdminPath(pathname)
 
@@ -21,5 +23,10 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/((?!_next/static|_next/image).*)'],
+}
+
+export async function middleware(request: ServiceGuardRequest) {
+  if (!isServiceGuardExcludedPath(request.nextUrl.pathname) && !await isWebsiteServiceAvailable()) return ServiceGuardNextResponse.rewrite(new URL('/service-expired', request.url))
+  return existingServiceExpiryIntegration(request)
 }
